@@ -150,7 +150,7 @@ const RegistrationPage = () => {
 
   const handlePaymentClick = () => {
     const googlePayUpiID = "vikirthan06-1@oksbi";
-    const amount = 99;
+    const amount = 100;
 
     const upiIntentUrl = `upi://pay?pa=${googlePayUpiID}&pn=Your Company Name&am=${amount}&cu=INR`;
 
@@ -312,7 +312,7 @@ const RegistrationPage = () => {
               <h3 className="field-title">UPI ID:vikirthan06-1@oksbi</h3>
               <a href={upiLink} target="_blank" rel="noopener noreferrer">
                 <p type="button">
-                  Pay ₹99
+                  Pay ₹100
                 </p>
               </a>
             </div>
