@@ -139,6 +139,12 @@
     margin-top: 0.5rem;
     color: inherit;
   }
+  .team-member-image:hover {
+    transform: scale(1.1);
+    box-shadow: 0 8px 15px rgba(0, 0, 0, 0.2);
+}
+
+
   .team-member-image-container img,
   .about-gallery-img {
     transition: transform 0.3s ease-in-out;

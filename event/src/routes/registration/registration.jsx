@@ -61,7 +61,7 @@ const RegistrationPage = () => {
   const handleSubmit = (e) => {
     e.preventDefault();
     if (!validateForm()) return;
-
+  
     const formData = new FormData();
     formData.append("name", name);
     formData.append("gender", gender);
@@ -73,11 +73,14 @@ const RegistrationPage = () => {
     formData.append("program", program);
     formData.append("bloodGroup", bloodGroup);
     formData.append("hORd", hORd);
-    formData.append("hostelNo", hostelNo);
+    formData.append("hostelID", hostelNo); // Ensure backend expects "hostelID"
+  
     if (paymentScreenshot) {
       formData.append("paymentScreenshot", paymentScreenshot);
     }
-
+  
+    console.log("FormData contents:", formData); // Debugging: Check contents of FormData
+  
     setLoading(true);
     axios
       .post("https://event-website-main.onrender.com/register", formData)
@@ -102,7 +105,8 @@ const RegistrationPage = () => {
         }).then(() => {
           navigate("/run-for-equality"); 
         });
-
+  
+        // Reset form fields
         setPaymentConfirmed(false);
         setShowPaymentOptions(false);
         setName("");
@@ -128,6 +132,7 @@ const RegistrationPage = () => {
         setLoading(false);
       });
   };
+  
 
   const handleFileChange = (e) => {
     setPaymentScreenshot(e.target.files[0]);
