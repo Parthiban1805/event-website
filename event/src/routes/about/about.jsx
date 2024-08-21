@@ -22,9 +22,9 @@ const About = () => {
     { name: "Harshavardhan", role: "Executive", link: "https://www.linkedin.com/in/harshavardhanchava/" },
     { name: "Vishva V A", role: "Executive", link: "https://www.linkedin.com/in/vishva-v-a-0734a928a/" },
     { name: "Sibi Raj", role: "HR & Data management head", link: "https://www.linkedin.com/in/sibirajg/" },
-    { name: "Vikirthan T", role: "Technical Team", link: "https://www.linkedin.com/in/vikirthan/" },
-    { name: "CharvithaVijay R", role: "Regular Activities Management Team", link: "https://www.linkedin.com/in/charvithavijay-remalli-3b9808266/" },
+    { name: "Vikirthan T", role: "Public Relations", link: "https://www.linkedin.com/in/vikirthan/" },
     { name: "Holy Dharshni S", role: "Content Writing Team", link: "https://www.linkedin.com/in/holydharshni" },
+    { name: "Venkata Manikantareddy kurapati", role: "Media team", link: "https://www.linkedin.com/in/venkata-manikanta-reddy-kurapati-49ab69297?utm_source=share&utm_campaign=share_via&utm_content=profile&utm_medium=ios_app" },
     { name: "Aswath I K", role: "Media Team", link: "https://www.linkedin.com/in/aswath-ilango-072573152/" },
     { name: "Sevitha Devineni", role: "Fine Arts Team", link: "https://www.linkedin.com/in/sevitha-devineni-855450289/" },
     { name: "Sai Niranjan A", role: "Group pratham", link: "https://www.linkedin.com/in/sai-niranjan-496a2a289/" },
@@ -71,7 +71,7 @@ const About = () => {
           Our Pillars
         </motion.h1>
         <div className="team-member-image-container">
-          {teamMembers.slice(0, 4).map((member, index) => (
+          {teamMembers.slice(0, 7).map((member, index) => (
             <motion.div
               className="tm-image-container"
               key={index}
@@ -93,7 +93,7 @@ const About = () => {
         </div>
       </div>
 
-      <motion.h1
+      {/* <motion.h1
         id="team-members-title1"
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
@@ -153,7 +153,7 @@ const About = () => {
             <p>{member.role}</p>
           </motion.div>
         ))}
-      </div>
+      </div> */}
 
       <div className="about-gallery-container">
         <motion.h1
