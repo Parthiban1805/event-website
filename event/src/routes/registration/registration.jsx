@@ -79,8 +79,7 @@ const RegistrationPage = () => {
       formData.append("paymentScreenshot", paymentScreenshot);
     }
   
-    console.log("FormData contents:", formData); // Debugging: Check contents of FormData
-  
+    console.log("FormData contents:", formData);
     setLoading(true);
     axios
       .post("https://event-website-main.onrender.com/register", formData)

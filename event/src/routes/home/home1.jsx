@@ -28,7 +28,7 @@ const Home = () => {
         <section id="register-now" className="register-now">
           <p className="register-content">
             <span style={{ color: "gray", fontSize: "35px" }}>"</span>
-            Registration for the Run for Equality 2 - 2024 is open now!
+            Registration for the Run for Equality 2.0 - 2024 is open now!
             <a href="/registration" style={{ color: "#ff4500", textDecoration: "none" }}> Click here to register</a>
             <span style={{ color: "gray", fontSize: "35px" }}>"</span>
           </p>
@@ -62,8 +62,9 @@ const Home = () => {
           <p className="events-title1">~Upcoming Events</p>
           <div className="events-card-container1">
             <Card
-              title="Run for equality 2"
+              title="Run for equality 2.0"
               img={rfe}
+              navlink={{ pathname: '/registration' }}
             />
           </div>
         </section>

@@ -68,7 +68,7 @@ const About = () => {
           animate={{ opacity: 1 }}
           transition={{ duration: 1, delay: 1.5 }}
         >
-          Our Pillars
+          Core Team
         </motion.h1>
         <div className="team-member-image-container">
           {teamMembers.slice(0, 8).map((member, index) => (
