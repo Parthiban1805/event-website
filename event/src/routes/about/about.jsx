@@ -25,7 +25,7 @@ const About = () => {
     { name: "Vikirthan T", role: "Public Relations", link: "https://www.linkedin.com/in/vikirthan/" },
     { name: "Holy Dharshni S", role: "Content Writing Team", link: "https://www.linkedin.com/in/holydharshni" },
     { name: "Venkata Manikantareddy kurapati", role: "Media team", link: "https://www.linkedin.com/in/venkata-manikanta-reddy-kurapati-49ab69297?utm_source=share&utm_campaign=share_via&utm_content=profile&utm_medium=ios_app" },
-    { name: "Aswath I K", role: "Media Team", link: "https://www.linkedin.com/in/aswath-ilango-072573152/" },
+    { name: "CharvithaVijay R", role: "Event Management", link: "https://www.linkedin.com/in/charvithavijay-remalli-3b9808266/" },
     { name: "Sevitha Devineni", role: "Fine Arts Team", link: "https://www.linkedin.com/in/sevitha-devineni-855450289/" },
     { name: "Sai Niranjan A", role: "Group pratham", link: "https://www.linkedin.com/in/sai-niranjan-496a2a289/" },
     { name: "Nithesh Kambhampati", role: "Group Thalir", link: "https://www.linkedin.com/in/nithesh03" },
@@ -71,7 +71,7 @@ const About = () => {
           Our Pillars
         </motion.h1>
         <div className="team-member-image-container">
-          {teamMembers.slice(0, 7).map((member, index) => (
+          {teamMembers.slice(0, 8).map((member, index) => (
             <motion.div
               className="tm-image-container"
               key={index}
