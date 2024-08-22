@@ -62,7 +62,7 @@ app.post('/register', upload.single('paymentScreenshot'), async (req, res) => {
       blood: req.body.bloodGroup,
       hORd: req.body.hORd,
       hostelID: req.body.hostelID,
-      paymentScreenshot: req.file ? path.basename(req.file.path) : null,
+      paymentScreenshot: req.file ? req.file.path : null,
       registerType: req.body.registerType, // Ensure this field is included
       promotionDetails: req.body.registerType === "promotion" ? req.body.promotionDetails : undefined,
       promotionDetailsPerson: req.body.registerType === "promotion" ? req.body.promotionDetailsPerson : undefined,

@@ -1,4 +1,3 @@
-
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import './table.css';
@@ -64,11 +63,9 @@ const Table = ({ title, items, currentPage, itemsPerPage, paginate, fetchAllData
               <th>Course</th>
               <th>Hostel/Day Scholar</th>
               <th>Hostel ID</th>
+              <th>Payment Screenshot</th>
               <th>Category did you register</th>
               <th>Additional Details</th>
-
-
-            
             </tr>
           </thead>
           <tbody>
@@ -84,26 +81,24 @@ const Table = ({ title, items, currentPage, itemsPerPage, paginate, fetchAllData
                   <td>{item.course || "N/A"}</td>
                   <td>{item.hORd || "N/A"}</td>
                   <td>{item.hostelID || "N/A"}</td>
-                  <td>{item.registerType}</td>
                   <td>
-                    {item.registerType === "promotion" && (
-                      <>
-                        Promotion Details: {item.promotionDetails || "N/A"}<br />
-                        Person Promoting: {item.promotionDetailsPerson || "N/A"}
-                      </>
-                    )}
-                    {item.registerType === "individual" && (
-                      <>Individual Person: {item.individualPerson || "N/A"}</>
-                    )}
-                    {item.registerType === "help_desk" && (
-                      <>Help Desk Option: {item.helpDeskOption || "N/A"}</>
+                    {item.paymentScreenshot ? (
+                      <a href={item.paymentScreenshot} target="_blank" rel="noopener noreferrer">View</a>
+                    ) : (
+                      'N/A'
                     )}
                   </td>
-                </tr>
+
+                  <td>{item.registerType || "N/A"}</td>
+                  <td>Promotion Details: {item.promotionDetails || "N/A"}<br />
+                    Person Promoting: {item.promotionDetailsPerson || "N/A"}</td>
+                  <td>Individual Person: {item.individualPerson || "N/A"}</td>
+                  <td>Help Desk Option: {item.helpDeskOption || "N/A"}</td>
+                  </tr>
               ))
             ) : (
               <tr>
-                <td colSpan="18">No data available</td>
+                <td colSpan="14">No data available</td>
               </tr>
             )}
           </tbody>
