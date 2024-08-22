@@ -99,9 +99,6 @@ const RegistrationPage = () => {
       formData.append("paymentScreenshot", paymentScreenshot);
     }
 
-    if (paymentScreenshot) {
-      formData.append("paymentScreenshot", paymentScreenshot);
-    }
   
     console.log("FormData contents:", formData);
     setLoading(true);
