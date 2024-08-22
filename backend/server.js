@@ -69,6 +69,7 @@ app.post('/register', upload.single('paymentScreenshot'), async (req, res) => {
       individualPerson: req.body.registerType === "individual" ? req.body.individualPerson : undefined,
       helpDeskOption: req.body.registerType === "help_desk" ? req.body.helpDeskOption : undefined,
     };
+    console.log('Uploaded file:', req.file);
 
     const database = client.db(dbName);
     const collection = database.collection(collectionName);
