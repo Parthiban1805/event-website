@@ -63,6 +63,17 @@ app.post('/register', upload.single('paymentScreenshot'), async (req, res) => {
     hostelID: req.body.hostelID,
     paymentScreenshot: req.file ? path.basename(req.file.path) : null,
   };
+  
+  if (req.body.registerType === "promotion") {
+    registrationData.promotionDetails = req.body.promotionDetails;
+    registrationData.promotionDetailsPerson = req.body.promotionDetailsPerson;
+  } else if (req.body.registerType === "individual") {
+    registrationData.individualPerson = req.body.individualPerson;
+  } else if (req.body.registerType === "help_desk") {
+    registrationData.helpDeskOption = req.body.helpDeskOption;
+  }
+  
+  
 
   try {
     const database = client.db(dbName);

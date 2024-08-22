@@ -27,6 +27,13 @@ const RegistrationPage = () => {
   const [showPaymentOptions, setShowPaymentOptions] = useState(false);
   const [errors, setErrors] = useState({});
   const [loading, setLoading] = useState(false);
+  const [Register, setRegister] = useState("");
+  const [promotionDetails, setPromotionDetails] = useState("");
+  const [promotionDetailsPerson, setPromotionDetailsPerson] = useState("");
+  const [IndividualPerson, setIndividualPerson] = useState("");
+  const [helpDesk, setHelpDesk] = useState("");
+
+
 
   useEffect(() => {
     if (hORd === "Hosteller") {
@@ -73,8 +80,25 @@ const RegistrationPage = () => {
     formData.append("program", program);
     formData.append("bloodGroup", bloodGroup);
     formData.append("hORd", hORd);
-    formData.append("hostelID", hostelNo); // Ensure backend expects "hostelID"
+    formData.append("hostelID", hostelNo);
+    formData.append("helpDesk", helpDesk);
+    
+    formData.append("registerType", Register);
   
+    if (Register === "promotion") {
+      formData.append("promotionDetails", promotionDetails);
+      formData.append("promotionDetailsPerson", promotionDetailsPerson);
+    } else if (Register === "individual") {
+      formData.append("individualPerson", IndividualPerson);
+    } else if (Register === "help_desk") {
+      formData.append("helpDeskOption", helpDesk);  // Append help desk option
+    }
+  
+
+    if (paymentScreenshot) {
+      formData.append("paymentScreenshot", paymentScreenshot);
+    }
+
     if (paymentScreenshot) {
       formData.append("paymentScreenshot", paymentScreenshot);
     }
@@ -105,7 +129,6 @@ const RegistrationPage = () => {
           navigate("/run-for-equality"); 
         });
   
-        // Reset form fields
         setPaymentConfirmed(false);
         setShowPaymentOptions(false);
         setName("");
@@ -121,6 +144,10 @@ const RegistrationPage = () => {
         setHostelNo("");
         setUpiLink("");
         setPaymentScreenshot(null);
+        setPromotionDetails("");
+        setPromotionDetailsPerson("");
+        setIndividualPerson("");
+        setHelpDesk("");
         setErrors({});
       })
       .catch((error) => {
@@ -272,6 +299,74 @@ const RegistrationPage = () => {
             <option value="O-">O-</option>
           </select>
         </div>
+        <div className="field">
+          <h3 className="field-title">Under which category did you register?</h3>
+          <select
+            className="field-input"
+            value={Register}
+            onChange={(e) => setRegister(e.target.value)}
+          >
+            <option value="">Select</option>
+            <option value="promotion">Hostel promotion</option>
+            <option value="individual">Individual</option>
+            <option value="social_media">Social Media</option>
+            <option value="help_desk">Help desk</option>
+
+          </select>
+        </div>
+        {Register === "promotion" && (
+          <>
+            <div className="field">
+              <h3 className="field-title">Hostel Number</h3>
+              <input
+                type="text"
+                className="field-input"
+                value={promotionDetails}
+                onChange={(e) => setPromotionDetails(e.target.value)}
+              />
+            </div>
+            <div className="field">
+              <h3 className="field-title">Person Promoting</h3>
+              <input
+                type="text"
+                className="field-input"
+                value={promotionDetailsPerson}
+                onChange={(e) => setPromotionDetailsPerson(e.target.value)}
+              />
+            </div>
+          </>
+        )}
+        {Register === "individual" && (
+          <div className="field">
+            <h3 className="field-title">Individual Person</h3>
+            <input
+              type="text"
+              className="field-input"
+              value={IndividualPerson}
+              onChange={(e) => setIndividualPerson(e.target.value)}
+            />
+          </div>
+        )}
+       {Register === "help_desk" && (
+        <div className="field">
+          <h3 className="field-title">Help Desk Options</h3>
+          <select
+            className="field-input"
+            value={helpDesk}
+            onChange={(e) => setHelpDesk(e.target.value)}
+          >
+            <option value="">Select</option>
+            <option value="1">Option 1</option>
+            <option value="2">Option 2</option>
+            <option value="3">Option 3</option>
+            <option value="4">Option 4</option>
+            <option value="5">Option 5</option>
+          </select>
+        </div>
+      )}
+
+
+
         <div className="field">
           <h3 className="field-title">Hosteller / Day scholar</h3>
           <select
