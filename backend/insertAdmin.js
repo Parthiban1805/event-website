@@ -13,7 +13,7 @@ async function insertUsers() {
 
     const users = [
       { email: "parthi.s1805@gmail.com", password: "password1" },
-      { email: "admin2@example.com", password: "password2" },
+      { email: "prabhat24lpunss@gmail.com", password: "Lovelynss@24" },
     ];
 
     const saltRounds = 10;

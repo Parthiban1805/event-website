@@ -82,12 +82,13 @@ const Table = ({ title, items, currentPage, itemsPerPage, paginate, fetchAllData
                   <td>{item.hORd || "N/A"}</td>
                   <td>{item.hostelID || "N/A"}</td>
                   <td>
-                    {item.paymentScreenshot ? (
-                      <a href={item.paymentScreenshot} target="_blank" rel="noopener noreferrer">View</a>
-                    ) : (
-                      'N/A'
-                    )}
-                  </td>
+                  {item.paymentScreenshot ? (
+                    <span>{item.paymentScreenshot}</span>
+                  ) : (
+                    'N/A'
+                  )}
+                </td>
+
 
                   <td>{item.registerType || "N/A"}</td>
                   <td>Promotion Details: {item.promotionDetails || "N/A"}<br />
