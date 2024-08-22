@@ -64,6 +64,8 @@ app.post('/register', upload.single('paymentScreenshot'), async (req, res) => {
       hostelID: req.body.hostelID,
       paymentScreenshot: req.file ? path.basename(req.file.path) : null,
     };
+    console.log('Registration data:', registrationData);
+
 
     // Handling registerType
     if (req.body.registerType === "promotion") {
