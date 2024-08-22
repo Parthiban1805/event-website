@@ -1,3 +1,4 @@
+
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import './table.css';
@@ -5,11 +6,22 @@ import './table.css';
 const Table = ({ title, items, currentPage, itemsPerPage, paginate, fetchAllData, viewAll }) => {
   const [search, setSearch] = useState('');
 
+  // Log the items being processed
+  console.log("All Items: ", items);
+
+  // Filter items based on search input
   const filteredItems = items.filter((item) =>
-    search.toLowerCase() === '' ? item : item.name.toLowerCase().includes(search)
+    item.name ? item.name.toLowerCase().includes(search.toLowerCase()) : false
   );
 
+  // Log filtered items
+  console.log("Filtered Items: ", filteredItems);
+
+  // Determine which items to display based on pagination
   const displayedItems = viewAll ? filteredItems : filteredItems.slice((currentPage - 1) * itemsPerPage, currentPage * itemsPerPage);
+
+  // Log displayed items
+  console.log("Displayed Items: ", displayedItems);
 
   const totalPages = Math.ceil(filteredItems.length / itemsPerPage);
   const pageNumbers = Array.from({ length: totalPages }, (_, i) => i + 1);
@@ -40,60 +52,62 @@ const Table = ({ title, items, currentPage, itemsPerPage, paginate, fetchAllData
       </div>
 
       <div className="table-container">
-      <table className="table-content">
-  <thead>
-    <tr>
-      <th>Name</th>
-      <th>Gender</th>
-      <th>Date of Birth</th>
-      <th>Email</th>
-      <th>Phone</th>
-      <th>Reg No</th>
-      <th>Course</th>
-      <th>Hostel/Day Scholar</th>
-      <th>Hostel ID</th>
-      <th>Category did you register</th>
-      <th>Additional Details</th> {/* New column for additional details */}
-    </tr>
-  </thead>
-  <tbody>
-    {displayedItems.length > 0 ? (
-      displayedItems.map((item, index) => (
-        <tr key={index}>
-          <td>{item.name}</td>
-          <td>{item.gender}</td>
-          <td>{item.dob}</td>
-          <td>{item.email}</td>
-          <td>{item.phone}</td>
-          <td>{item.regNo}</td>
-          <td>{item.course}</td>
-          <td>{item.hORd}</td>
-          <td>{item.hostelID}</td>
-          <td>{item.registerType}</td>
-          <td>
-            {item.registerType === "promotion" && (
-              <>
-                Promotion Details: {item.promotionDetails}<br />
-                Person Promoting: {item.promotionDetailsPerson}
-              </>
-            )}
-            {item.registerType === "individual" && (
-              <>Individual Person: {item.individualPerson}</>
-            )}
-            {item.registerType === "help_desk" && (
-              <>Help Desk Option: {item.helpDeskOption}</>
-            )}
-          </td>
-        </tr>
-      ))
-    ) : (
-      <tr>
-        <td colSpan="11">No data available</td>
-      </tr>
-    )}
-  </tbody>
-</table>
+        <table className="table-content">
+          <thead>
+            <tr>
+              <th>Name</th>
+              <th>Gender</th>
+              <th>Date of Birth</th>
+              <th>Email</th>
+              <th>Phone</th>
+              <th>Reg No</th>
+              <th>Course</th>
+              <th>Hostel/Day Scholar</th>
+              <th>Hostel ID</th>
+              <th>Category did you register</th>
+              <th>Additional Details</th>
 
+
+            
+            </tr>
+          </thead>
+          <tbody>
+            {displayedItems.length > 0 ? (
+              displayedItems.map((item, index) => (
+                <tr key={index}>
+                  <td>{item.name || "N/A"}</td>
+                  <td>{item.gender || "N/A"}</td>
+                  <td>{item.dob || "N/A"}</td>
+                  <td>{item.email || "N/A"}</td>
+                  <td>{item.phone || "N/A"}</td>
+                  <td>{item.regNo || "N/A"}</td>
+                  <td>{item.course || "N/A"}</td>
+                  <td>{item.hORd || "N/A"}</td>
+                  <td>{item.hostelID || "N/A"}</td>
+                  <td>{item.registerType}</td>
+                  <td>
+                    {item.registerType === "promotion" && (
+                      <>
+                        Promotion Details: {item.promotionDetails || "N/A"}<br />
+                        Person Promoting: {item.promotionDetailsPerson || "N/A"}
+                      </>
+                    )}
+                    {item.registerType === "individual" && (
+                      <>Individual Person: {item.individualPerson || "N/A"}</>
+                    )}
+                    {item.registerType === "help_desk" && (
+                      <>Help Desk Option: {item.helpDeskOption || "N/A"}</>
+                    )}
+                  </td>
+                </tr>
+              ))
+            ) : (
+              <tr>
+                <td colSpan="18">No data available</td>
+              </tr>
+            )}
+          </tbody>
+        </table>
       </div>
 
       {!viewAll && (

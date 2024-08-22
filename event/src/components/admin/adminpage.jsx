@@ -20,7 +20,7 @@ const AdminPage = () => {
       if (response.ok) {
         if (Array.isArray(data)) {
           setReservationDetails(data);
-          setAllData(data);  
+          setAllData(data);
         } else {
           console.error("Unexpected data format:", JSON.stringify(data, null, 2));
         }
