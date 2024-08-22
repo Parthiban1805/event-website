@@ -81,29 +81,20 @@ const RegistrationPage = () => {
     formData.append("bloodGroup", bloodGroup);
     formData.append("hORd", hORd);
     formData.append("hostelID", hostelNo);
-    formData.append("helpDesk", helpDesk);
-    
     formData.append("registerType", Register);
   
+    // Append registration-specific details
     if (Register === "promotion") {
       formData.append("promotionDetails", promotionDetails);
       formData.append("promotionDetailsPerson", promotionDetailsPerson);
     } else if (Register === "individual") {
       formData.append("individualPerson", IndividualPerson);
     } else if (Register === "help_desk") {
-      formData.append("helpDeskOption", helpDesk);  // Append help desk option
+      formData.append("helpDeskOption", helpDesk);
     }
   
-
-    if (paymentScreenshot) {
-      formData.append("paymentScreenshot", paymentScreenshot);
-    }
-
-  
-    console.log("FormData contents:", formData);
     setLoading(true);
-    axios
-      .post("https://event-website-main.onrender.com/register", formData)
+    axios.post("https://event-website-main.onrender.com/register", formData)
       .then(() => {
         swal({
           title: "Registration Successful!",
@@ -123,11 +114,10 @@ const RegistrationPage = () => {
           },
           icon: "success"
         }).then(() => {
-          navigate("/run-for-equality"); 
+          navigate("/run-for-equality");
         });
   
-        setPaymentConfirmed(false);
-        setShowPaymentOptions(false);
+        // Reset form fields
         setName("");
         setGender("");
         setDob("");
@@ -139,8 +129,6 @@ const RegistrationPage = () => {
         setBloodGroup("");
         setHorD("");
         setHostelNo("");
-        setUpiLink("");
-        setPaymentScreenshot(null);
         setPromotionDetails("");
         setPromotionDetailsPerson("");
         setIndividualPerson("");
@@ -148,9 +136,9 @@ const RegistrationPage = () => {
         setErrors({});
       })
       .catch((error) => {
-        const errorMessage = error.response?.data?.message || "Registration failed, please try again.";
-        swal("Registration failed", errorMessage, "error");
-            })
+        console.error("Error storing data: ", error);
+        swal("Registration failed", "Please try again.", "error");
+      })
       .finally(() => {
         setLoading(false);
       });
