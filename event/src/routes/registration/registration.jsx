@@ -82,9 +82,7 @@ const RegistrationPage = () => {
     formData.append("hORd", hORd);
     formData.append("hostelID", hostelNo);
     formData.append("registerType", Register);
-  
-    // Append registration-specific details
-    if (Register === "promotion") {
+      if (Register === "promotion") {
       formData.append("promotionDetails", promotionDetails);
       formData.append("promotionDetailsPerson", promotionDetailsPerson);
     } else if (Register === "individual") {
@@ -92,6 +90,10 @@ const RegistrationPage = () => {
     } else if (Register === "help_desk") {
       formData.append("helpDeskOption", helpDesk);
     }
+    if (paymentScreenshot) {
+      formData.append("paymentScreenshot", paymentScreenshot);
+    }
+
   
     setLoading(true);
     axios.post("https://event-website-main.onrender.com/register", formData)
@@ -397,7 +399,8 @@ const RegistrationPage = () => {
             </div>
             <div className="field">
               <h3 className="field-title">Upload payment screenshot</h3>
-              <input type="file" onChange={handleFileChange} />
+              <input type="file" 
+              name="paymentScreenshot" onChange={handleFileChange} />
             </div>
             <div className="field">
               <button
