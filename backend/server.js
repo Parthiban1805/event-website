@@ -12,7 +12,7 @@ const port = 5000;
 
 const dbName = 'registrationDB';
 const collectionName = 'registrations';
-const uri = "mongodb+srv://parthis1805:Parthiban1805@registeration.j2v4mdr.mongodb.net/${dbName}?retryWrites=true&w=majority&appName=registeration";
+const uri = `mongodb+srv://parthis1805:Parthiban1805@registeration.j2v4mdr.mongodb.net/${dbName}?retryWrites=true&w=majority&appName=registeration`;
 const uploadDir = path.join(__dirname, 'uploads');
 
 if (!fs.existsSync(uploadDir)) {
@@ -49,38 +49,37 @@ async function connectToMongoDB() {
 connectToMongoDB();
 
 app.post('/register', upload.single('paymentScreenshot'), async (req, res) => {
-  const registrationData = {
-    name: req.body.name,
-    gender: req.body.gender,
-    dob: req.body.dob,
-    email: req.body.email,
-    phone: req.body.phone,
-    regNo: req.body.regNo,
-    course: req.body.course,
-    program: req.body.program,
-    blood: req.body.bloodGroup,
-    hORd: req.body.hORd,
-    hostelID: req.body.hostelID,
-    paymentScreenshot: req.file ? path.basename(req.file.path) : null,
-  };
-  
-  if (req.body.registerType === "promotion") {
-    registrationData.promotionDetails = req.body.promotionDetails;
-    registrationData.promotionDetailsPerson = req.body.promotionDetailsPerson;
-  } else if (req.body.registerType === "individual") {
-    registrationData.individualPerson = req.body.individualPerson;
-  } else if (req.body.registerType === "help_desk") {
-    registrationData.helpDeskOption = req.body.helpDeskOption;
-  }
-  
-  
-
   try {
+    const registrationData = {
+      name: req.body.name,
+      gender: req.body.gender,
+      dob: req.body.dob,
+      email: req.body.email,
+      phone: req.body.phone,
+      regNo: req.body.regNo,
+      course: req.body.course,
+      program: req.body.program,
+      blood: req.body.bloodGroup,
+      hORd: req.body.hORd,
+      hostelID: req.body.hostelID,
+      paymentScreenshot: req.file ? path.basename(req.file.path) : null,
+    };
+
+    // Handling registerType
+    if (req.body.registerType === "promotion") {
+      registrationData.promotionDetails = req.body.promotionDetails;
+      registrationData.promotionDetailsPerson = req.body.promotionDetailsPerson;
+    } else if (req.body.registerType === "individual") {
+      registrationData.individualPerson = req.body.individualPerson;
+    } else if (req.body.registerType === "help_desk") {
+      registrationData.helpDeskOption = req.body.helpDeskOption;
+    }
+
     const database = client.db(dbName);
     const collection = database.collection(collectionName);
     const result = await collection.insertOne(registrationData);
-    console.log('Registration data stored in MongoDB:', result.insertedId);
 
+    console.log('Registration data stored in MongoDB:', result.insertedId);
     res.status(200).send('Registration successful!');
   } catch (error) {
     console.error('Error storing data in MongoDB:', error.message);
@@ -134,4 +133,11 @@ app.get('/', (req, res) => {
 
 app.listen(port, () => {
   console.log(`Server running at http://localhost:${port}`);
+});
+
+// Handle graceful shutdown
+process.on('SIGINT', async () => {
+  await client.close();
+  console.log('MongoDB connection closed');
+  process.exit(0);
 });
