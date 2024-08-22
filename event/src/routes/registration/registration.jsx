@@ -148,9 +148,9 @@ const RegistrationPage = () => {
         setErrors({});
       })
       .catch((error) => {
-        console.error("Error storing data: ", error);
-        swal("Registration failed", "Please try again.", "error");
-      })
+        const errorMessage = error.response?.data?.message || "Registration failed, please try again.";
+        swal("Registration failed", errorMessage, "error");
+            })
       .finally(() => {
         setLoading(false);
       });
