@@ -1,24 +1,18 @@
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
+import { Link } from 'react-router-dom';
 import './table.css';
 
 const Table = ({ title, items, currentPage, itemsPerPage, paginate, fetchAllData, viewAll }) => {
   const [search, setSearch] = useState('');
 
-  console.log("All Items: ", items);
-
   const filteredItems = items.filter((item) =>
     item.name ? item.name.toLowerCase().includes(search.toLowerCase()) : false
   );
 
-  // Log filtered items
-  console.log("Filtered Items: ", filteredItems);
-
-  // Determine which items to display based on pagination
-  const displayedItems = viewAll ? filteredItems : filteredItems.slice((currentPage - 1) * itemsPerPage, currentPage * itemsPerPage);
-
-  // Log displayed items
-  console.log("Displayed Items: ", displayedItems);
+  const displayedItems = viewAll
+    ? filteredItems
+    : filteredItems.slice((currentPage - 1) * itemsPerPage, currentPage * itemsPerPage);
 
   const totalPages = Math.ceil(filteredItems.length / itemsPerPage);
   const pageNumbers = Array.from({ length: totalPages }, (_, i) => i + 1);
@@ -38,7 +32,7 @@ const Table = ({ title, items, currentPage, itemsPerPage, paginate, fetchAllData
         />
       </div>
 
-      <div className='view-all'>
+      <div className="view-all">
         <button onClick={fetchAllData}>
           {viewAll ? 'View Paginated' : 'View All'}
         </button>
@@ -70,37 +64,34 @@ const Table = ({ title, items, currentPage, itemsPerPage, paginate, fetchAllData
             {displayedItems.length > 0 ? (
               displayedItems.map((item, index) => (
                 <tr key={index}>
-                  <td>{item.name || "N/A"}</td>
-                  <td>{item.gender || "N/A"}</td>
-                  <td>{item.dob || "N/A"}</td>
-                  <td>{item.email || "N/A"}</td>
-                  <td>{item.phone || "N/A"}</td>
-                  <td>{item.regNo || "N/A"}</td>
-                  <td>{item.course || "N/A"}</td>
-                  <td>{item.hORd || "N/A"}</td>
-                  <td>{item.hostelID || "N/A"}</td>
+                  <td>{item.name || 'N/A'}</td>
+                  <td>{item.gender || 'N/A'}</td>
+                  <td>{item.dob || 'N/A'}</td>
+                  <td>{item.email || 'N/A'}</td>
+                  <td>{item.phone || 'N/A'}</td>
+                  <td>{item.regNo || 'N/A'}</td>
+                  <td>{item.course || 'N/A'}</td>
+                  <td>{item.hORd || 'N/A'}</td>
+                  <td>{item.hostelID || 'N/A'}</td>
                   <td>
+                    {item.paymentScreenshot ? (
+
+                      <Link to={`/view-image/${encodeURIComponent(item.paymentScreenshot)}`}>
+                        View
+                      </Link>
+                    ) : (
+                      'N/A'
+                    )}
+                  </td>
+                  <td>{item.registerType || 'N/A'}</td>
                   <td>
-                  {item.paymentScreenshot ? (
-                    <img
-                      src={`https://event-website-main.onrender.com/${item.paymentScreenshot}`}
-                      alt="Payment Screenshot"
-                      style={{ width: "100px", height: "auto" }}
-                    />
-                  ) : (
-                    'N/A'
-                  )}
-</td>
-
-                </td>
-
-
-                  <td>{item.registerType || "N/A"}</td>
-                  <td>Promotion Details: {item.promotionDetails || "N/A"}<br />
-                    Person Promoting: {item.promotionDetailsPerson || "N/A"}</td>
-                  <td>Individual Person: {item.individualPerson || "N/A"}</td>
-                  <td>Help Desk Option: {item.helpDeskOption || "N/A"}</td>
-                  </tr>
+                    Promotion Details: {item.promotionDetails || 'N/A'}
+                    <br />
+                    Person Promoting: {item.promotionDetailsPerson || 'N/A'}
+                  </td>
+                  <td>Individual Person: {item.individualPerson || 'N/A'}</td>
+                  <td>Help Desk Option: {item.helpDeskOption || 'N/A'}</td>
+                </tr>
               ))
             ) : (
               <tr>
@@ -120,7 +111,7 @@ const Table = ({ title, items, currentPage, itemsPerPage, paginate, fetchAllData
           >
             Previous
           </button>
-          {pageNumbers.map(number => (
+          {pageNumbers.map((number) => (
             <button key={number} onClick={() => paginate(number)}>
               {number}
             </button>

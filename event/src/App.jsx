@@ -12,7 +12,8 @@ import AdminPage from './components/admin/adminpage';
 import AdminLogin from './components/signup/signup';
 import Run_for_equality from './routes/run-for-equality/run_for_equality';
 import Loader from './components/loader/loader'
-import NotFound from './components/notfound/notfound'; 
+import NotFound from './components/notfound/notfound';
+import ImageView from "./components/admin/ImageView"; 
 
 import { IoCloudOffline } from "react-icons/io5"; 
 
@@ -104,6 +105,8 @@ const App = () => {
               <Route path='contact' element={<Contact />} />
               <Route path='run-for-equality' element={<Run_for_equality />} />
               <Route path="*" element={<NotFound />} /> {/* Handle 404 */}
+              <Route path="/view-image/:imageUrl" element={<ImageView />} />
+
 
             </Routes>
           </Layout>
