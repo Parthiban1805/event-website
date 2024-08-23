@@ -5,10 +5,8 @@ import './table.css';
 const Table = ({ title, items, currentPage, itemsPerPage, paginate, fetchAllData, viewAll }) => {
   const [search, setSearch] = useState('');
 
-  // Log the items being processed
   console.log("All Items: ", items);
 
-  // Filter items based on search input
   const filteredItems = items.filter((item) =>
     item.name ? item.name.toLowerCase().includes(search.toLowerCase()) : false
   );
@@ -82,11 +80,18 @@ const Table = ({ title, items, currentPage, itemsPerPage, paginate, fetchAllData
                   <td>{item.hORd || "N/A"}</td>
                   <td>{item.hostelID || "N/A"}</td>
                   <td>
+                  <td>
                   {item.paymentScreenshot ? (
-                    <span>{item.paymentScreenshot}</span>
+                    <img
+                      src={`https://event-website-main.onrender.com/${item.paymentScreenshot}`}
+                      alt="Payment Screenshot"
+                      style={{ width: "100px", height: "auto" }}
+                    />
                   ) : (
                     'N/A'
                   )}
+</td>
+
                 </td>
 
 

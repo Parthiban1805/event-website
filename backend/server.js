@@ -13,26 +13,29 @@ const port = 5000;
 const dbName = 'registrationDB';
 const collectionName = 'registrations';
 const uri = `mongodb+srv://parthis1805:Parthiban1805@registeration.j2v4mdr.mongodb.net/${dbName}?retryWrites=true&w=majority&appName=registeration`;
-const uploadDir = path.join(__dirname, 'uploads');
+const uploadDir = 'uploads';
+
 
 if (!fs.existsSync(uploadDir)) {
   fs.mkdirSync(uploadDir);
 }
 
 const storage = multer.diskStorage({
-  destination: function (req, file, cb) {
+  destination: (req, file, cb) => {
     cb(null, uploadDir);
   },
-  filename: function (req, file, cb) {
+  filename: (req, file, cb) => {
     cb(null, Date.now() + '-' + file.originalname);
   },
 });
 
-const upload = multer({ storage: storage });
+const upload = multer({ storage });
 
 app.use(cors());
 app.use(express.json());
 app.use(bodyParser.json());
+
+app.use('/uploads', express.static(uploadDir));
 
 const client = new MongoClient(uri, { useNewUrlParser: true, useUnifiedTopology: true });
 
@@ -59,16 +62,17 @@ app.post('/register', upload.single('paymentScreenshot'), async (req, res) => {
       regNo: req.body.regNo,
       course: req.body.course,
       program: req.body.program,
-      blood: req.body.bloodGroup,
+      bloodGroup: req.body.bloodGroup,
       hORd: req.body.hORd,
       hostelID: req.body.hostelID,
-      paymentScreenshot: req.file ? `uploads/${req.file.filename}`: null,
-      registerType: req.body.registerType, // Ensure this field is included
+      paymentScreenshot: req.file ? `/uploads/${req.file.filename}` : null, 
+      registerType: req.body.registerType,
       promotionDetails: req.body.registerType === "promotion" ? req.body.promotionDetails : undefined,
       promotionDetailsPerson: req.body.registerType === "promotion" ? req.body.promotionDetailsPerson : undefined,
       individualPerson: req.body.registerType === "individual" ? req.body.individualPerson : undefined,
       helpDeskOption: req.body.registerType === "help_desk" ? req.body.helpDeskOption : undefined,
     };
+
     console.log('Uploaded file:', req.file);
 
     const database = client.db(dbName);
@@ -82,7 +86,6 @@ app.post('/register', upload.single('paymentScreenshot'), async (req, res) => {
     res.status(500).send(`Error storing data: ${error.message}`);
   }
 });
-
 
 app.get('/table', async (req, res) => {
   try {
@@ -132,7 +135,6 @@ app.listen(port, () => {
   console.log(`Server running at http://localhost:${port}`);
 });
 
-// Handle graceful shutdown
 process.on('SIGINT', async () => {
   await client.close();
   console.log('MongoDB connection closed');

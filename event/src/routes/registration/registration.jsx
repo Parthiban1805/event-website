@@ -148,8 +148,22 @@ const RegistrationPage = () => {
   
 
   const handleFileChange = (e) => {
-    setPaymentScreenshot(e.target.files[0]);
+    const file = e.target.files[0];
+    
+    const validTypes = ["image/png", "image/jpeg", "image/jpg"];
+    if (file && !validTypes.includes(file.type)) {
+      swal("Invalid file type", "Please upload a file in PNG or JPG format.", "error");
+      return;
+    }
+  
+    if (file && file.size > 2 * 1024 * 1024) { // 2MB limit
+      swal("File too large", "Please upload a file smaller than 2MB.", "error");
+      return;
+    }
+  
+    setPaymentScreenshot(file);
   };
+  
 
   const handlePaymentConfirmation = () => {
     if (!paymentScreenshot) {
