@@ -105,7 +105,7 @@ const App = () => {
               <Route path='contact' element={<Contact />} />
               <Route path='run-for-equality' element={<Run_for_equality />} />
               <Route path="*" element={<NotFound />} /> {/* Handle 404 */}
-              <Route path="/view-image/:imageUrl" element={<ImageView />} />
+              <Route path="/imageUrl" element={<ImageView />} />
 
 
             </Routes>
