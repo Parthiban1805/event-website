@@ -1,11 +1,12 @@
+import React, { useState } from 'react';
+import { useNavigate, useParams } from 'react-router-dom';
+
 const ImageView = () => {
   const { imageUrl } = useParams();
   const navigate = useNavigate();
   const [imgError, setImgError] = useState(false);
 
-  // Decode the URL
-  const decodedUrl = decodeURIComponent(imageUrl);
-  const publicImageUrl = `https://event-website-main.onrender.com${decodedUrl}`;
+  const publicImageUrl = `https://event-website-main.onrender.com${imageUrl}`;
 
   return (
     <div style={{ textAlign: 'center', padding: '20px' }}>
@@ -31,4 +32,5 @@ const ImageView = () => {
     </div>
   );
 };
+
 export default ImageView;

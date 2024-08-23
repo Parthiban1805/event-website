@@ -1,5 +1,5 @@
-import React, { useState } from 'react';
 import PropTypes from 'prop-types';
+import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import './table.css';
 
@@ -62,37 +62,43 @@ const Table = ({ title, items, currentPage, itemsPerPage, paginate, fetchAllData
           </thead>
           <tbody>
             {displayedItems.length > 0 ? (
-              displayedItems.map((item, index) => (
-                <tr key={index}>
-                  <td>{item.name || 'N/A'}</td>
-                  <td>{item.gender || 'N/A'}</td>
-                  <td>{item.dob || 'N/A'}</td>
-                  <td>{item.email || 'N/A'}</td>
-                  <td>{item.phone || 'N/A'}</td>
-                  <td>{item.regNo || 'N/A'}</td>
-                  <td>{item.course || 'N/A'}</td>
-                  <td>{item.hORd || 'N/A'}</td>
-                  <td>{item.hostelID || 'N/A'}</td>
-                  <td>
-                    {item.paymentScreenshot ? (
+              displayedItems.map((item, index) => {
+                // Extract the file name from the full path
+                const fileName = item.paymentScreenshot
+                  ? item.paymentScreenshot.split('/').pop()
+                  : null;
 
-                      <Link to={`/view-image/${encodeURIComponent(item.paymentScreenshot)}`}>
-                        View
-                      </Link>
-                    ) : (
-                      'N/A'
-                    )}
-                  </td>
-                  <td>{item.registerType || 'N/A'}</td>
-                  <td>
-                    Promotion Details: {item.promotionDetails || 'N/A'}
-                    <br />
-                    Person Promoting: {item.promotionDetailsPerson || 'N/A'}
-                  </td>
-                  <td>Individual Person: {item.individualPerson || 'N/A'}</td>
-                  <td>Help Desk Option: {item.helpDeskOption || 'N/A'}</td>
-                </tr>
-              ))
+                return (
+                  <tr key={index}>
+                    <td>{item.name || 'N/A'}</td>
+                    <td>{item.gender || 'N/A'}</td>
+                    <td>{item.dob || 'N/A'}</td>
+                    <td>{item.email || 'N/A'}</td>
+                    <td>{item.phone || 'N/A'}</td>
+                    <td>{item.regNo || 'N/A'}</td>
+                    <td>{item.course || 'N/A'}</td>
+                    <td>{item.hORd || 'N/A'}</td>
+                    <td>{item.hostelID || 'N/A'}</td>
+                    <td>
+                      {fileName ? (
+                        <Link to={`https://event-website-main.onrender.com/uploads/${fileName}`}>
+                          View
+                        </Link>
+                      ) : (
+                        'N/A'
+                      )}
+                    </td>
+                    <td>{item.registerType || 'N/A'}</td>
+                    <td>
+                      Promotion Details: {item.promotionDetails || 'N/A'}
+                      <br />
+                      Person Promoting: {item.promotionDetailsPerson || 'N/A'}
+                    </td>
+                    <td>Individual Person: {item.individualPerson || 'N/A'}</td>
+                    <td>Help Desk Option: {item.helpDeskOption || 'N/A'}</td>
+                  </tr>
+                );
+              })
             ) : (
               <tr>
                 <td colSpan="14">No data available</td>
