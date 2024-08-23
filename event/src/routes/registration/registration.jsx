@@ -32,6 +32,7 @@ const RegistrationPage = () => {
   const [promotionDetailsPerson, setPromotionDetailsPerson] = useState("");
   const [IndividualPerson, setIndividualPerson] = useState("");
   const [helpDesk, setHelpDesk] = useState("");
+  const[others,setOthers]=useState("");
 
 
 
@@ -89,6 +90,9 @@ const RegistrationPage = () => {
       formData.append("individualPerson", IndividualPerson);
     } else if (Register === "help_desk") {
       formData.append("helpDeskOption", helpDesk);
+    }
+    if(bloodGroup=== 'others'){
+      formData.append("others",others);
     }
     if (paymentScreenshot) {
       formData.append("paymentScreenshot", paymentScreenshot);
@@ -298,6 +302,18 @@ const RegistrationPage = () => {
             <option value="AB-">AB-</option>
             <option value="O+">O+</option>
             <option value="O-">O-</option>
+            <option value="others">Others</option>
+            {bloodGroup === "others" && (
+          <div className="field">
+            <h3 className="field-title">Others</h3>
+            <input
+              type="text"
+              className="field-input"
+              value={others}
+              onChange={(e) => setOthers(e.target.value)}
+            />
+          </div>
+        )}
           </select>
         </div>
         <div className="field">

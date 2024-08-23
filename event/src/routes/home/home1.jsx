@@ -10,6 +10,12 @@ import swachhbharat from '../../assets/SWACHH BHARAT/img3.png';
 import bg from '../../assets/Untitled (1).png';
 import Card from '../../components/card/card';
 import Run_for_equality_2023 from '../../assets/Run_for_equality-2023.jpg'
+import plantation from '../../assets/plantation.png'
+import rivals from '../../assets/rivals.png'
+import smash from '../../assets/smashit.png'
+import voter from '../../assets/voter.png'
+import nari1 from '../../assets/nari.png'
+import cancer from '../../assets/cancer.png'
 import './home1.css';
 
 const Home = () => {
@@ -72,13 +78,13 @@ const Home = () => {
         <section className="events-section1">
           <p className="events-title1">~Social Events</p>
           <div className="events-card-container1">
-            <Card title="Plantation Drive" img={placeholder} navlink={{ pathname: '/' }} />
+            <Card title="Plantation Drive" img={plantation} navlink={{ pathname: '/' }} />
             <Card title="Physiotherapy" img={physio} navlink={{ pathname: '/' }} />
             <Card title="Feeding Bellies" img={feedingbellies} navlink={{ pathname: '/' }} />
-            <Card title="Nari: Her Right Her Prides" img={nari} navlink={{ pathname: '/' }} />
+            <Card title="Nari: Her Right Her Prides" img={nari1} navlink={{ pathname: '/' }} />
             <Card title="Joy of giving" img={joyofgiving} navlink={{ pathname: '/' }} />
-            <Card title="Cancer Awareness" img={placeholder} navlink={{ pathname: '/' }} />
-            <Card title="Voter Awareness" img={placeholder} navlink={{ pathname: '/' }} />
+            <Card title="Cancer Awareness" img={cancer} navlink={{ pathname: '/' }} />
+            <Card title="Voter Awareness" img={voter} navlink={{ pathname: '/' }} />
             <Card title="Samarpan" img={placeholder} navlink={{ pathname: '/' }} />
             <Card title="Swachh Bharat" img={swachhbharat} navlink={{ pathname: '/' }} />
           </div>
@@ -87,8 +93,8 @@ const Home = () => {
         <section className="events-section1">
           <p className="events-title1">~Fundraising Events</p>
           <div className="events-card-container1">
-            <Card title="Rivals on the pitch" img={placeholder} navlink={{ pathname: '/' }} />
-            <Card title="Smash it" img={placeholder} navlink={{ pathname: '/' }} />
+            <Card title="Rivals on the pitch" img={rivals} navlink={{ pathname: '/' }} />
+            <Card title="Smash it" img={smash} navlink={{ pathname: '/' }} />
             <Card title="Run for equality 2023" img={Run_for_equality_2023} navlink={{ pathname: '/' }} />
           </div>
         </section>

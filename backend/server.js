@@ -35,7 +35,7 @@ app.use(cors());
 app.use(express.json());
 app.use(bodyParser.json());
 
-app.use('/uploads', express.static(uploadDir));
+app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
 
 const client = new MongoClient(uri, { useNewUrlParser: true, useUnifiedTopology: true });
 
@@ -52,6 +52,18 @@ async function connectToMongoDB() {
 connectToMongoDB();
 
 app.post('/register', upload.single('paymentScreenshot'), async (req, res) => {
+  fs.access(uploadDir, fs.constants.W_OK, (err) => {
+    if (err) {
+      console.error('Directory is not writable:', err);
+    } else {
+      console.log('Directory is writable');
+    }
+  });
+
+  if (!req.file) {
+    return res.status(400).send('No file uploaded.');
+  }
+
   try {
     const registrationData = {
       name: req.body.name,
@@ -65,7 +77,7 @@ app.post('/register', upload.single('paymentScreenshot'), async (req, res) => {
       bloodGroup: req.body.bloodGroup,
       hORd: req.body.hORd,
       hostelID: req.body.hostelID,
-      paymentScreenshot: req.file ? `/uploads/${req.file.filename}` : null, 
+      paymentScreenshot: `/uploads/${req.file.filename}`,
       registerType: req.body.registerType,
       promotionDetails: req.body.registerType === "promotion" ? req.body.promotionDetails : undefined,
       promotionDetailsPerson: req.body.registerType === "promotion" ? req.body.promotionDetailsPerson : undefined,
