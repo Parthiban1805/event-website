@@ -16,6 +16,7 @@ import smash from '../../assets/smashit.png'
 import voter from '../../assets/voter.png'
 import nari1 from '../../assets/nari.png'
 import cancer from '../../assets/cancer.png'
+import samarpan from '../../assets/smarpan.jpeg';
 import './home1.css';
 
 const Home = () => {
@@ -85,7 +86,7 @@ const Home = () => {
             <Card title="Joy of giving" img={joyofgiving} navlink={{ pathname: '/' }} />
             <Card title="Cancer Awareness" img={cancer} navlink={{ pathname: '/' }} />
             <Card title="Voter Awareness" img={voter} navlink={{ pathname: '/' }} />
-            <Card title="Samarpan" img={placeholder} navlink={{ pathname: '/' }} />
+            <Card title="Samarpan" img={samarpan} navlink={{ pathname: '/' }} />
             <Card title="Swachh Bharat" img={swachhbharat} navlink={{ pathname: '/' }} />
           </div>
         </section>

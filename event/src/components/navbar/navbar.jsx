@@ -42,7 +42,7 @@ const Navbar = () => {
         <div className="navbar-links-header">
           {/* Company name in header */}
           <div className="company-name">
-            <a href="/">UNIT PRABHAT</a>
+            <a href="/">UNIT PRABHAAT</a>
           </div>
           {/* Close sidebar button */}
           <label htmlFor="sidebar-active" className="close-sidebar-button">
@@ -64,6 +64,8 @@ const Navbar = () => {
           <a href="/about">About</a>
           <a href="/sponsors">Sponsors</a>
           <a href="/contact">Contact</a>
+          <a href="/register">Registration</a>
+
         </div>
       </div>
     </div>

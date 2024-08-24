@@ -31,6 +31,7 @@ const RegistrationPage = () => {
   const [promotionDetails, setPromotionDetails] = useState("");
   const [promotionDetailsPerson, setPromotionDetailsPerson] = useState("");
   const [IndividualPerson, setIndividualPerson] = useState("");
+  
   const [helpDesk, setHelpDesk] = useState("");
   const[others,setOthers]=useState("");
 
@@ -48,7 +49,8 @@ const RegistrationPage = () => {
     }
   }, [gender, hORd]);
 
-  const validateForm = () => {
+
+  const handleSubmit = (e) => {
     const newErrors = {};
     if (!name) newErrors.name = "Name is required";
     if (!gender) newErrors.gender = "Gender is required";
@@ -59,14 +61,30 @@ const RegistrationPage = () => {
     if (!course) newErrors.course = "Course is required";
     if (!program) newErrors.program = "Program is required";
     if (!bloodGroup) newErrors.bloodGroup = "Blood group is required";
+    if (bloodGroup === "others" && !others) newErrors.others = "Blood group is required";
     if (!hORd) newErrors.hORd = "Hosteller/Dayscholar status is required";
     if (hORd === "Hosteller" && !hostelNo) newErrors.hostelNo = "Hostel number is required";
-
-    setErrors(newErrors);
-    return Object.keys(newErrors).length === 0;
-  };
-
-  const handleSubmit = (e) => {
+    if (!Register) newErrors.Register = "Under which category did you register? is required";
+    if (Register === "promotion" && (!promotionDetails || !promotionDetailsPerson)) {
+      newErrors.promotionDetails = "Promotion details are required";
+    }
+    if (Register === "individual" && !IndividualPerson) {
+      newErrors.IndividualPerson = "Individual Person is required";
+    }
+    if (Register === "help_desk" && !helpDesk) {
+      newErrors.helpDesk = "Help desk is required";
+    }
+  
+    if (Object.keys(newErrors).length > 0) {
+      const errorMessages = Object.values(newErrors).join("\n");
+      swal({
+        title: "Form Validation Error",
+        text: errorMessages,
+        icon: "error",
+        button: "Ok",
+      });
+    } 
+  
     e.preventDefault();
     if (!validateForm()) return;
   
@@ -154,13 +172,13 @@ const RegistrationPage = () => {
   const handleFileChange = (e) => {
     const file = e.target.files[0];
     
-    const validTypes = ["image/png", "image/jpeg", "image/jpg"];
+    const validTypes = ["image/png", "image/jpeg"];
     if (file && !validTypes.includes(file.type)) {
-      swal("Invalid file type", "Please upload a file in PNG or JPG format.", "error");
+      swal("Invalid file type", "Please upload a file in PNG or JPEG format.", "error");
       return;
     }
   
-    if (file && file.size > 2 * 1024 * 1024) { // 2MB limit
+    if (file && file.size > 2* 1024 * 1024) { // 2MB limit
       swal("File too large", "Please upload a file smaller than 2MB.", "error");
       return;
     }
@@ -303,9 +321,12 @@ const RegistrationPage = () => {
             <option value="O+">O+</option>
             <option value="O-">O-</option>
             <option value="others">Others</option>
-            {bloodGroup === "others" && (
+          
+          </select>
+        </div>
+        {bloodGroup === "others" && (
           <div className="field">
-            <h3 className="field-title">Others</h3>
+            <h3 className="field-title">Blood-Group</h3>
             <input
               type="text"
               className="field-input"
@@ -314,8 +335,6 @@ const RegistrationPage = () => {
             />
           </div>
         )}
-          </select>
-        </div>
         <div className="field">
           <h3 className="field-title">Under which category did you register?</h3>
           <select
