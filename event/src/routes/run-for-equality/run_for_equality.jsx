@@ -1,4 +1,5 @@
 import React from 'react'
+import { Helmet } from 'react-helmet';
 import './run_for_equality.css'
 import img1 from '../../assets/RUN FOR EQUALITY/img1.jpg';
 import img2 from '../../assets/RUN FOR EQUALITY/img2.jpg';
@@ -10,6 +11,12 @@ import img6 from '../../assets/RUN FOR EQUALITY/img6.jpg';
 const Run = () => {
   return (
     <div className='run-for-equality-container'>
+        <Helmet>
+            <title>Run for Equality - Gender Equality Marathon</title>
+            <meta name="description" content="Join the Run for Equality marathon to promote gender equality. Participate in this empowering event and make a difference towards equal opportunities for all genders." />
+            <meta name="keywords" content="run for equality, gender equality marathon, marathon, equal opportunities, inclusive society" />
+        </Helmet>
+
      
         <div className="run-for-equality-content">
             <h1 id='Run-for-equality'> About Run-for-Equality:</h1>
@@ -18,12 +25,13 @@ const Run = () => {
           <div className="run-for-equality-gallery-container">
             <h1 >~ Gallery</h1>
             <div className="run-for-equality-gallery">
-              <img src={img1}alt="" />
-              <img src={img2}alt="" />
-              <img src={img3}alt="" />
-              <img src={img4}alt="" />
-              <img src={img5}alt="" />
-              <img src={img6}alt="" />
+            <img src={img1} alt="Participants at the Run for Equality event" />
+            <img src={img2} alt="Group photo of runners promoting gender equality" />
+            <img src={img3} alt="Marathon event banner for gender equality" />
+            <img src={img4} alt="Runners crossing the finish line" />
+            <img src={img5} alt="Volunteers supporting the event" />
+            <img src={img6} alt="Participants celebrating their achievements" />
+
             </div>
         </div>
       </div>

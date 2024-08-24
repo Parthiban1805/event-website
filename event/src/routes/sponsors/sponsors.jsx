@@ -6,6 +6,8 @@ import { FiArrowUpRight } from "react-icons/fi";
 import rfe from '../../assets/rfe.png';
 import CardCarousel from '../../components/cardcarousel/cardcarousel';
 import ScrollingCards from '../../components/scrollingcards/scrollingcards';
+import { Helmet } from 'react-helmet';
+
 import './sponsors.css';
 
 const Sponsors = () => {
@@ -15,6 +17,12 @@ const Sponsors = () => {
 
   return (
     <div className='sponsor-container'>
+      <Helmet>
+        <title>Sponsors & Benefits - University Event</title>
+        <meta name="description" content="Explore sponsorship benefits including brand exposure, corporate sustainability, and community engagement at one of the biggest university events." />
+        <meta name="keywords" content="sponsorship, brand exposure, university event, community engagement, corporate sustainability, university marathon" />
+      </Helmet>
+
       <motion.h1 
         className="sponsor-benefits"
         initial={{ opacity: 0 }}
@@ -57,7 +65,7 @@ const Sponsors = () => {
         </div>
         <motion.img 
           src={rfe} 
-          alt="Sponsor"
+          alt="Brand Exposure Sponsorship for University Event"
           className="sponsor-benefit-image"
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}

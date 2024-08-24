@@ -10,6 +10,8 @@ import img4 from '../../assets/ABOUT US/img4.png';
 import img5 from '../../assets/FEEDING BELLIES/img4.png';
 import img6 from '../../assets/JOY OF GIVING/img4.png';
 import placeholder from '../../assets/placeholder.png';
+import { Helmet } from 'react-helmet';
+
 import "./about.css";
 
 const About = () => {
@@ -35,6 +37,11 @@ const About = () => {
 
   return (
     <div className='about-container'>
+      <Helmet>
+        <title>About</title>
+        <meta name="description" content="Join LPUNSS for events like Run for Equality Foster community service and social responsibility with us." />
+        <meta name="keywords" content="LPUNSS, Run for Equality, Plantation Drive, Physiotherapy, Cancer Awareness,unit prabhaat,registration of run for equality" />
+      </Helmet>
       <div className="about-content">
         <motion.h1
           id='Unit_Prabhat'

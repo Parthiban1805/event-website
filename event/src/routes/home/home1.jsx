@@ -17,6 +17,8 @@ import voter from '../../assets/voter.png'
 import nari1 from '../../assets/nari.png'
 import cancer from '../../assets/cancer.png'
 import samarpan from '../../assets/smarpan.jpeg';
+import { Helmet } from 'react-helmet';
+
 import './home1.css';
 
 const Home = () => {
@@ -28,8 +30,14 @@ const Home = () => {
 
     return (
         <div className="home-page1-container">
+          <Helmet>
+                <title>National Service Scheme (NSS) - Lovely Professional University</title>
+                <meta name="description" content="Join LPUNSS for events like Run for Equality Foster community service and social responsibility with us." />
+                <meta name="keywords" content="LPUNSS, Run for Equality, Plantation Drive, Physiotherapy, Cancer Awareness,unit prabhaat,registration of run for equality" />
+            </Helmet>
+
         <section className="home-page1-hero-section">
-          <img src={bg} alt="Hero Background" className="home-page1-hero-image" />
+          <img src={bg} alt="Hero Background of National Service Scheme at Lovely Professional University" className="home-page1-hero-image" />
         </section>
   
         <section id="register-now" className="register-now">
@@ -54,7 +62,7 @@ const Home = () => {
           <div className="home-page1-about-contents">
             <h1 className="about-section-header1">About us</h1>
             <p className="about-section-para1">
-              Welcome to the National Service Scheme (NSS) at Lovely Professional University (LPUNSS)!
+            Welcome to the National Service Scheme (NSS) at <a href="https://www.lpu.in/" style={{ color: "#ff4500", textDecoration: "none" }}>Lovely Professional University</a> (LPUNSS)!
             </p>
           </div>
           <div className="home-page1-mission-contents">
@@ -71,6 +79,7 @@ const Home = () => {
             <Card
               title="Run for equality 2.0"
               img={rfe}
+              alt="Run for Equality"
               navlink={{ pathname: '/registration' }}
             />
           </div>
