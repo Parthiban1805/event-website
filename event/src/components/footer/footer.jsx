@@ -33,7 +33,7 @@ const Footer = () => {
         <li className="menu__item"><a className="menu__link" href="/about">About</a></li>
         <li className="menu__item"><a className="menu__link" href="/sponsors">Sponsors</a></li>
         <li className="menu__item"><a className="menu__link" href="/contact">Contact</a></li>
-        <li className="menu__item"><a className="menu__link" href="/register">Registration</a></li>
+        <li className="menu__item"><a className="menu__link" href="/registration">Registration</a></li>
 
         <li className="menu__item"><a className="menu__link" href="/terms_condition.pdf">Terms and Conditions</a></li> {/* Link to Terms Page */}
       </ul>
