@@ -16,12 +16,48 @@ const Sponsors = () => {
   }, []);
 
   return (
+    <><Helmet>
+    <title>Sponsors & Benefits - University Event</title>
+    <meta name="description" content="Explore sponsorship benefits including brand exposure, corporate sustainability, and community engagement at one of the biggest university events." />
+    <meta name="keywords" content="sponsorship, brand exposure, university event, community engagement, corporate sustainability, university marathon" />
+
+    <meta property="og:title" content="Sponsors & Benefits - University Event" />
+    <meta property="og:description" content="Explore sponsorship benefits including brand exposure, corporate sustainability, and community engagement at one of the biggest university events." />
+    <meta property="og:url" content="https://www.unitprabhaat.comv/sponsors-benefits" /> {/* Add your page URL */}
+    <meta property="og:type" content="website" />
+
+    {/* Twitter Card Meta Tags */}
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="Sponsors & Benefits - University Event" />
+    <meta name="twitter:description" content="Explore sponsorship benefits including brand exposure, corporate sustainability, and community engagement at one of the biggest university events." />
+    <meta name="twitter:image" content="https://example.com/event-image.jpg" /> {/* Add your image URL */}
+    <meta name="twitter:url" content="https://example.com/sponsors-benefits" /> {/* Add your page URL */}
+
+    {/* JSON-LD Structured Data */}
+    <script type="application/ld+json">
+        {`
+        {
+            "@context": "https://schema.org",
+            "@type": "Event",
+            "name": "University Marathon - Sponsors & Benefits",
+            "startDate": "2024-09-20T08:00",
+            "location": {
+                "@type": "Place",
+                "name": "University Grounds",
+            },
+            "description": "Explore sponsorship benefits including brand exposure, corporate sustainability, and community engagement at one of the biggest university events.",
+            "organizer": {
+                "@type": "Organization",
+                "name": "University Event Committee",
+                "url": "https://example.com"
+            }
+        }
+        `}
+    </script>
+</Helmet>
+
     <div className='sponsor-container'>
-      <Helmet>
-        <title>Sponsors & Benefits - University Event</title>
-        <meta name="description" content="Explore sponsorship benefits including brand exposure, corporate sustainability, and community engagement at one of the biggest university events." />
-        <meta name="keywords" content="sponsorship, brand exposure, university event, community engagement, corporate sustainability, university marathon" />
-      </Helmet>
+    
 
       <motion.h1 
         className="sponsor-benefits"
@@ -98,6 +134,7 @@ const Sponsors = () => {
       </div>
       <ScrollingCards />
     </div>
+    </>
   );
 }
 

@@ -36,12 +36,46 @@ const About = () => {
   ];
 
   return (
+    <>
+    <Helmet>
+    <title>About - Unit Prabhaat-National Service Scheme (NSS)</title>
+    <meta name="description" content="Join LPUNSS for events like Run for Equality. Foster community service and social responsibility with us." />
+    <meta name="keywords" content="community service, NSS events, volunteer opportunities, Unit Prabhaat activities, social responsibility, equality run,youth engagement, public health initiatives" />
+
+    <meta property="og:title" content="About - Unit Prabhaat-National Service Scheme (NSS)" />
+    <meta property="og:description" content="Join LPUNSS for events like Run for Equality. Foster community service and social responsibility with us." />
+    <meta property="og:url" content="https://www.unitprabhaat.com/about" /> 
+    <meta property="og:type" content="website" />
+
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="About - Unit Prabhaat-National Service Scheme (NSS)" />
+    <meta name="twitter:description" content="Join LPUNSS for events like Run for Equality. Foster community service and social responsibility with us." />
+    <meta name="twitter:url" content="https://www.unitprabhaat.com/about" /> 
+    <script type="application/ld+json">
+        {`
+        {
+            "@context": "https://schema.org",
+            "@type": "Organization",
+            "name": "Unit Prabhaat - National Service Scheme (NSS)",
+            "url": "https://www.unitprabhaat.com/", 
+            "sameAs": [
+                "https://www.facebook.com/your-profile",
+                "https://www.twitter.com/your-profile",
+                "https://www.instagram.com/your-profile"
+            ],
+            "contactPoint": {
+                "@type": "ContactPoint",
+                "telephone": "+91-8190022020", /* Replace with your contact number */
+                "contactType": "Customer Service"
+            },
+            "description": "Join LPUNSS for events like Run for Equality. Foster community service and social responsibility with us."
+        }
+        `}
+    </script>
+</Helmet>
+
     <div className='about-container'>
-      <Helmet>
-        <title>About</title>
-        <meta name="description" content="Join LPUNSS for events like Run for Equality Foster community service and social responsibility with us." />
-        <meta name="keywords" content="LPUNSS, Run for Equality, Plantation Drive, Physiotherapy, Cancer Awareness,unit prabhaat,registration of run for equality" />
-      </Helmet>
+     
       <div className="about-content">
         <motion.h1
           id='Unit_Prabhat'
@@ -186,6 +220,7 @@ const About = () => {
         </div>
       </div>
     </div>
+    </>
   );
 }
 

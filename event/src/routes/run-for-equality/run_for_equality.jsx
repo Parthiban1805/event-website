@@ -10,13 +10,43 @@ import img6 from '../../assets/RUN FOR EQUALITY/img6.jpg';
 
 const Run = () => {
   return (
-    <div className='run-for-equality-container'>
-        <Helmet>
-            <title>Run for Equality - Gender Equality Marathon</title>
-            <meta name="description" content="Join the Run for Equality marathon to promote gender equality. Participate in this empowering event and make a difference towards equal opportunities for all genders." />
-            <meta name="keywords" content="run for equality, gender equality marathon, marathon, equal opportunities, inclusive society" />
-        </Helmet>
+    <>
+    <Helmet>
+    <title>Run for Equality - Gender Equality Marathon</title>
+    <meta name="description" content="Join the Run for Equality marathon to promote gender equality. Participate in this empowering event and make a difference towards equal opportunities for all genders." />
+    <meta name="keywords" content="run for equality, gender equality marathon, marathon, equal opportunities, inclusive society" />
+    <meta property="og:title" content="Run for Equality - Gender Equality Marathon" />
+    <meta property="og:description" content="Join the Run for Equality marathon to promote gender equality. Participate in this empowering event and make a difference towards equal opportunities for all genders." />
+    <meta property="og:url" content="https://www.unitprabhaat.com/run-for-equality" /> 
+    <meta property="og:type" content="website" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="Run for Equality - Gender Equality Marathon" />
+    <meta name="twitter:description" content="Join the Run for Equality marathon to promote gender equality. Participate in this empowering event and make a difference towards equal opportunities for all genders." />
+    <meta name="twitter:url" content="https://www.unitprabhaat.com/run-for-equality" /> 
+    <script type="application/ld+json">
+        {`
+        {
+            "@context": "https://schema.org",
+            "@type": "SportsEvent",
+            "name": "Run for Equality - Gender Equality Marathon",
+            "startDate": "2024-09-15T07:00",
+            "location": {
+                "@type": "Place",
+                "name": "Central Park",
+             
+            },
+            "description": "Join the Run for Equality marathon to promote gender equality. Participate in this empowering event and make a difference towards equal opportunities for all genders.",
+            "organizer": {
+                "@type": "Organization",
+                "name": "Unit Prabhaat - National Service Scheme (NSS)",
+                "url": "https://www.unitprabhaat.com"
+            }
+        }
+        `}
+    </script>
+</Helmet>
 
+    <div className='run-for-equality-container'>
      
         <div className="run-for-equality-content">
             <h1 id='Run-for-equality'> About Run-for-Equality:</h1>
@@ -35,6 +65,7 @@ const Run = () => {
             </div>
         </div>
       </div>
+      </>
   )
 }
 

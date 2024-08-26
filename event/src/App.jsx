@@ -101,7 +101,7 @@ const App = () => {
               <Route path="/admin" element={<AdminPage />} />
               <Route path="/admin-login" element={<AdminLogin />} />
               <Route path='about' element={<About />} />
-              <Route path='sponsors' element={<Sponsors />} />
+              <Route path='sponsors-benefits' element={<Sponsors />} />
               <Route path='contact' element={<Contact />} />
               <Route path='run-for-equality' element={<Run_for_equality />} />
               <Route path="*" element={<NotFound />} /> {/* Handle 404 */}

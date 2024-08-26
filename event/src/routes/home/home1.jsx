@@ -29,13 +29,45 @@ const Home = () => {
       }, []);
 
     return (
-        <div className="home-page1-container">
-          <Helmet>
-                <title>National Service Scheme (NSS) - Lovely Professional University</title>
-                <meta name="description" content="Join LPUNSS for events like Run for Equality Foster community service and social responsibility with us." />
-                <meta name="keywords" content="LPUNSS, Run for Equality, Plantation Drive, Physiotherapy, Cancer Awareness,unit prabhaat,registration of run for equality" />
-            </Helmet>
+      <>
+      <Helmet>
+    <title>Unit Prabhaat-National Service Scheme (NSS)</title>
+    <meta name="description" content="Join LPUNSS for events like Run for Equality. Foster community service and social responsibility with us." />
+    <meta name="keywords" content="LPUNSS, Run for Equality, Plantation Drive, Physiotherapy, Cancer Awareness, Unit Prabhaat, registration of Run for Equality" />
+    <meta property="og:title" content="Unit Prabhaat-National Service Scheme (NSS)" />
+    <meta property="og:description" content="Join LPUNSS for events like Run for Equality. Foster community service and social responsibility with us." />
+    <meta property="og:url" content="https://www.unitprabhaat.com/" /> 
+    <meta property="og:type" content="website" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="Unit Prabhaat-National Service Scheme (NSS)" />
+    <meta name="twitter:description" content="Join LPUNSS for events like Run for Equality. Foster community service and social responsibility with us." />
+    <meta name="twitter:url" content="https://www.unitprabhaat.com/" /> 
 
+
+    <script type="application/ld+json">
+        {`
+        {
+            "@context": "https://schema.org",
+            "@type": "Organization",
+            "name": "Unit Prabhaat - National Service Scheme (NSS)",
+            "url": "https://www.unitprabhaat.com/", 
+            "sameAs": [
+                "https://www.facebook.com/your-profile",
+                "https://www.twitter.com/your-profile",
+                "https://www.instagram.com/your-profile"
+            ],
+            "contactPoint": {
+                "@type": "ContactPoint",
+                "telephone": "+91-8190022020",
+                "contactType": "Customer Service"
+            },
+            "description": "Join LPUNSS for events like Run for Equality. Foster community service and social responsibility with us."
+        }
+        `}
+    </script>
+</Helmet>
+
+        <div className="home-page1-container">
         <section className="home-page1-hero-section">
           <img src={bg} alt="Hero Background of National Service Scheme at Lovely Professional University" className="home-page1-hero-image" />
         </section>
@@ -109,6 +141,7 @@ const Home = () => {
           </div>
         </section>
       </div>
+      </>
     );
   };
 
