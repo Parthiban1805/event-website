@@ -6,83 +6,120 @@ const bcrypt = require('bcrypt');
 const fs = require('fs');
 const path = require('path');
 const bodyParser = require('body-parser');
-const xlsx = require('xlsx');
-
+const xlsx = require('xlsx'); // Add this line to include xlsx
 const app = express();
-const port = 3001;
-
+const port = 5000;
 const dbName = 'registrationDB';
 const collectionName = 'registrations';
 const uri = `mongodb+srv://parthis1805:Parthiban1805@registeration.j2v4mdr.mongodb.net/${dbName}?retryWrites=true&w=majority&appName=registeration`;
-const uploadDir = path.join(__dirname, 'uploads');
-const excelFilePath = path.join(__dirname, 'registration.xlsx');
+const uploadDir = 'uploads';
 
 if (!fs.existsSync(uploadDir)) {
   fs.mkdirSync(uploadDir);
 }
 
 const storage = multer.diskStorage({
-  destination: function (req, file, cb) {
+  destination: (req, file, cb) => {
     cb(null, uploadDir);
   },
-  filename: function (req, file, cb) {
+  filename: (req, file, cb) => {
     cb(null, Date.now() + '-' + file.originalname);
   },
 });
-
-const upload = multer({ storage: storage });
+const upload = multer({ storage });
 
 app.use(cors());
 app.use(express.json());
 app.use(bodyParser.json());
+app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
 
 const client = new MongoClient(uri, { useNewUrlParser: true, useUnifiedTopology: true });
 
-client.connect().catch(error => {
-  console.error('Error connecting to MongoDB:', error);
-});
+async function connectToMongoDB() {
+  try {
+    await client.connect();
+    console.log("Connected to MongoDB");
+  } catch (error) {
+    console.error('Error connecting to MongoDB:', error);
+    process.exit(1);
+  }
+}
+connectToMongoDB();
 
-const database = client.db(dbName);
-const collection = database.collection(collectionName);
+function saveToExcel(data) {
+  console.log('Register endpoint hit.');
 
-// Function to save data to Excel
-const saveToExcel = (data) => {
+  const excelFile = path.join(__dirname, 'registrations.xlsx');
+  console.log(`Saving to Excel file at: ${excelFile}`);
+
   let workbook;
-  let worksheet;
-
-  if (fs.existsSync(excelFilePath)) {
-    workbook = xlsx.readFile(excelFilePath);
-    worksheet = workbook.Sheets['Registrations'];
-    const jsonData = xlsx.utils.sheet_to_json(worksheet);
-    jsonData.push(data);
-    worksheet = xlsx.utils.json_to_sheet(jsonData);
+  if (fs.existsSync(excelFile)) {
+    workbook = xlsx.readFile(excelFile);
+    console.log('Existing file found, updating it.');
   } else {
     workbook = xlsx.utils.book_new();
-    worksheet = xlsx.utils.json_to_sheet([data]);
-    xlsx.utils.book_append_sheet(workbook, worksheet, 'Registrations');
+    console.log('No existing file found, creating a new one.');
   }
 
-  workbook.Sheets['Registrations'] = worksheet;
-  xlsx.writeFile(workbook, excelFilePath);
-};
+  const sheetName = 'Registrations';
+  let worksheet = workbook.Sheets[sheetName];
+
+  if (!worksheet) {
+    worksheet = xlsx.utils.json_to_sheet([]);
+    xlsx.utils.book_append_sheet(workbook, worksheet, sheetName);
+  }
+
+  const dataJson = xlsx.utils.sheet_to_json(worksheet);
+  dataJson.push(data);
+
+  const updatedWorksheet = xlsx.utils.json_to_sheet(dataJson);
+  workbook.Sheets[sheetName] = updatedWorksheet;
+
+  xlsx.writeFile(workbook, excelFile);
+  console.log('Excel file saved successfully.');
+}
+
 
 app.post('/register', upload.single('paymentScreenshot'), async (req, res) => {
-  const registrationData = {
-    name: req.body.name,
-    gender: req.body.gender,
-    dob: req.body.dob,
-    email: req.body.email,
-    phone: req.body.phone,
-    regNo: req.body.regNo,
-    course: req.body.course,
-    program: req.body.program,
-    blood: req.body.bloodGroup,
-    hORd: req.body.hORd,
-    hostelID: req.body.hostelID,
-    paymentScreenshot: `/uploads/${req.file.filename}`,  
-  };
+  fs.access(uploadDir, fs.constants.W_OK, (err) => {
+    if (err) {
+      console.error('Directory is not writable:', err);
+    } else {
+      console.log('Directory is writable');
+    }
+  });
+
+  if (!req.file) {
+    return res.status(400).send('No file uploaded.');
+  }
+  console.log('Register endpoint hit.');
 
   try {
+    const registrationData = {
+      name: req.body.name,
+      gender: req.body.gender,
+      dob: req.body.dob,
+      email: req.body.email,
+      phone: req.body.phone,
+      regNo: req.body.regNo,
+      course: req.body.course,
+      program: req.body.program,
+      bloodGroup: req.body.bloodGroup,
+      hORd: req.body.hORd,
+      hostelID: req.body.hostelID,
+      paymentScreenshot: `/uploads/${req.file.filename}`,
+      registerType: req.body.registerType,
+      promotionDetails: req.body.registerType === "promotion" ? req.body.promotionDetails : undefined,
+      promotionDetailsPerson: req.body.registerType === "promotion" ? req.body.promotionDetailsPerson : undefined,
+      individualPerson: req.body.registerType === "individual" ? req.body.individualPerson : undefined,
+      helpDeskOption: req.body.registerType === "help_desk" ? req.body.helpDeskOption : undefined,
+    };
+
+    console.log('Uploaded file:', req.file);
+
+    const database = client.db(dbName);
+    const collection = database.collection(collectionName);
+
     // Store data in MongoDB
     const result = await collection.insertOne(registrationData);
     console.log('Registration data stored in MongoDB:', result.insertedId);
@@ -92,14 +129,17 @@ app.post('/register', upload.single('paymentScreenshot'), async (req, res) => {
 
     res.status(200).send('Registration successful!');
   } catch (error) {
-    console.error('Error storing data:', error);
-    res.status(500).send('Error storing data');
+    console.error('Error storing data in MongoDB:', error.message);
+    res.status(500).send(`Error storing data: ${error.message}`);
   }
 });
 
 app.get('/table', async (req, res) => {
   try {
+    const database = client.db(dbName);
+    const collection = database.collection(collectionName);
     const results = await collection.find({}).toArray();
+    console.log('Data fetched successfully:', results);
     res.status(200).json(results);
   } catch (error) {
     console.error('Error fetching data from MongoDB:', error);
@@ -109,12 +149,17 @@ app.get('/table', async (req, res) => {
 
 app.post('/admin-login', async (req, res) => {
   const { email, password } = req.body;
-
   try {
+    const database = client.db("adminDB");
+    const collection = database.collection("signup");
     const admin = await collection.findOne({ email });
-
-    if (admin && (await bcrypt.compare(password, admin.password))) {
-      res.status(200).json({ message: "Signin successful" });
+    if (admin) {
+      const isMatch = await bcrypt.compare(password, admin.password);
+      if (isMatch) {
+        res.status(200).json({ message: "Signin successful" });
+      } else {
+        res.status(401).json({ message: "Invalid credentials" });
+      }
     } else {
       res.status(401).json({ message: "Invalid credentials" });
     }
@@ -130,4 +175,10 @@ app.get('/', (req, res) => {
 
 app.listen(port, () => {
   console.log(`Server running at http://localhost:${port}`);
+});
+
+process.on('SIGINT', async () => {
+  await client.close();
+  console.log('MongoDB connection closed');
+  process.exit(0);
 });
