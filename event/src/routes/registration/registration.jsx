@@ -86,7 +86,6 @@ const RegistrationPage = () => {
     } 
   
     e.preventDefault();
-    if (!validateForm()) return;
   
     const formData = new FormData();
     formData.append("name", name);
@@ -198,7 +197,7 @@ const RegistrationPage = () => {
   };
 
   const handlePaymentClick = () => {
-    const googlePayUpiID = "vikirthan06-1@oksbi";
+    const googlePayUpiID = "kobikags-2@oksbi";
     const amount = 100;
 
     const upiIntentUrl = `upi://pay?pa=${googlePayUpiID}&pn=Your Company Name&am=${amount}&cu=INR`;
@@ -439,7 +438,7 @@ const RegistrationPage = () => {
         {showPaymentOptions && (
           <div>
             <div className="field">
-              <h3 className="field-title">UPI ID:vikirthan06-1@oksbi</h3>
+              <h3 className="field-title">UPI ID:kobikags-2@oksbi</h3>
               <a href={upiLink} target="_blank" rel="noopener noreferrer">
                 <p type="button">
                   Pay ₹100

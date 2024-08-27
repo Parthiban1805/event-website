@@ -14,7 +14,6 @@ import Run_for_equality from './routes/run-for-equality/run_for_equality';
 import Loader from './components/loader/loader'
 import NotFound from './components/notfound/notfound';
 import ImageView from "./components/admin/ImageView"; 
-
 import { IoCloudOffline } from "react-icons/io5"; 
 
 const Layout = ({ children }) => {

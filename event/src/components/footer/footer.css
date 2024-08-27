@@ -1,54 +1,97 @@
 .footer {
-    position: relative;
-    width: 100%;
-    background: #333;
-    min-height: 100px;
-    padding: 20px 50px;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    text-align: center;
-  }  
+  position: relative;
+  width: 100%;
+  background: #333;
+  min-height: 100px;
+  padding: 20px 50px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+}
+
+.social-icon {
+  list-style: none;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: 20px 0;
+}
+
+.social-icon__item {
+  margin: 0 10px;
+}
+
+.social-icon__link {
+  color: #fff;
+  font-size: 24px;
+  transition: all 0.5s ease;
+}
+
+.menu {
+  list-style: none;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: 20px 0;
+}
+
+.menu__item {
+  margin: 0 10px;
+}
+
+.menu__link {
+  color: #fff;
+  text-decoration: none;
+  font-size: 16px;
+  transition: all 0.5s ease;
+}
+
+.menu__link:hover,
+.social-icon__link:hover {
+  color: #ff4500;
+}
+
+/* Responsive Design */
+
+@media (max-width: 768px) {
+  .footer {
+    padding: 15px 30px;
+  }
+
   .social-icon {
-    list-style: none;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    margin: 20px 0;
+    margin: 15px 0;
   }
-  
-  .social-icon__item {
-    margin: 0 10px;
-  }
-  
+
   .social-icon__link {
-    color: #fff;
-    font-size: 24px;
-    transition: all 0.5s ease;
+    font-size: 20px;
   }
 
   .menu {
-    list-style: none;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    margin: 20px 0;
-  }
-  
-  .menu__item {
-    margin: 0 10px;
-  }
-  
-  .menu__link {
-    color: #fff;
-    text-decoration: none;
-    font-size: 16px;
-    transition: all 0.5s ease;
+    flex-direction: column;
+    margin: 15px 0;
   }
 
-  
-  .menu__link:hover,.social-icon__link:hover{
-    color: #ff4500;
+  .menu__item {
+    margin: 5px 0;
   }
-  
+
+  .menu__link {
+    font-size: 14px;
+  }
+}
+
+@media (max-width: 480px) {
+  .footer {
+    padding: 10px 20px;
+  }
+
+  .social-icon__link {
+    font-size: 18px;
+  }
+
+  .menu__link {
+    font-size: 13px;
+  }
+}
