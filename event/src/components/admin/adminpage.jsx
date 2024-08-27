@@ -46,6 +46,27 @@ const AdminPage = () => {
         <p>Admin Dashboard</p>
       </div>
       <div className="admin-page-content">
+        <div className="admin-page-buttons">
+          {/* Download Button */}
+          <a
+            href="https://event-website-main.onrender.com/download-excel"
+            className="btn btn-download"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            Download Excel
+          </a>
+
+          {/* View Button (if you want to open it in a new tab) */}
+          <a
+            href="https://event-website-main.onrender.com/download-excel"
+            className="btn btn-view"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            View Excel
+          </a>
+        </div>
         <div className="admin-page-reservation-details">
           <Table
             title="Registration details"

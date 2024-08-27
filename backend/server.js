@@ -168,6 +168,15 @@ app.post('/admin-login', async (req, res) => {
     res.status(500).json({ error: 'Error fetching data' });
   }
 });
+app.get('/download-excel', (req, res) => {
+  const filePath = path.join(__dirname, 'registrations.xlsx');
+  res.download(filePath, 'registrations.xlsx', (err) => {
+    if (err) {
+      console.error('Error downloading the file:', err);
+      res.status(500).send('Error downloading the file.');
+    }
+  });
+});
 
 app.get('/', (req, res) => {
   res.send('Hello World!');
