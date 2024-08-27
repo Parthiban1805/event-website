@@ -3,9 +3,9 @@ import QRCode from "qrcode.react";
 import React, { useEffect, useState } from "react";
 import PhoneInput from "react-phone-input-2";
 import "react-phone-input-2/lib/style.css";
-import "./registration.css";
-import swal from "sweetalert"; 
 import { useNavigate } from "react-router-dom";
+import swal from "sweetalert";
+import "./registration.css";
 
 const RegistrationPage = () => {
   const navigate = useNavigate(); // Create a navigate function
@@ -50,7 +50,10 @@ const RegistrationPage = () => {
   }, [gender, hORd]);
 
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+  
+    // Perform validation
     const newErrors = {};
     if (!name) newErrors.name = "Name is required";
     if (!gender) newErrors.gender = "Gender is required";
@@ -83,10 +86,10 @@ const RegistrationPage = () => {
         icon: "error",
         button: "Ok",
       });
-    } 
+      return; // Stop the function if there are validation errors
+    }
   
-    e.preventDefault();
-  
+    // Prepare FormData
     const formData = new FormData();
     formData.append("name", name);
     formData.append("gender", gender);
@@ -98,9 +101,10 @@ const RegistrationPage = () => {
     formData.append("program", program);
     formData.append("bloodGroup", bloodGroup);
     formData.append("hORd", hORd);
-    formData.append("hostelID", hostelNo);
+    formData.append("hostelNo", hostelNo);
     formData.append("registerType", Register);
-      if (Register === "promotion") {
+  
+    if (Register === "promotion") {
       formData.append("promotionDetails", promotionDetails);
       formData.append("promotionDetailsPerson", promotionDetailsPerson);
     } else if (Register === "individual") {
@@ -108,64 +112,54 @@ const RegistrationPage = () => {
     } else if (Register === "help_desk") {
       formData.append("helpDeskOption", helpDesk);
     }
-    if(bloodGroup=== 'others'){
-      formData.append("others",others);
+  
+    if (bloodGroup === 'others') {
+      formData.append("others", others);
     }
     if (paymentScreenshot) {
       formData.append("paymentScreenshot", paymentScreenshot);
     }
-
   
     setLoading(true);
-    axios.post("https://event-website-main.onrender.com/register", formData)
-      .then(() => {
-        swal({
-          title: "Registration Successful!",
-          text: "For any queries, please contact:",
-          content: {
-            element: "div",
-            attributes: {
-              innerHTML: `
-                <p>For any queries, please contact:</p>
-                <ul>
-                  <li>Lakshan Raghav J R: <a href="tel:+918610590584">+91 86105 90584</a></li>
-                  <li>Harshavardhan: <a href="tel:+919963652827">+91 99636 52827</a></li>
-                  <li>Vikirthan: <a href="tel:+918190022020">+91 81900 22020</a></li>
-                </ul>
-              `
-            }
-          },
-          icon: "success"
-        }).then(() => {
-          navigate("/run-for-equality");
-        });
   
-        // Reset form fields
-        setName("");
-        setGender("");
-        setDob("");
-        setEmail("");
-        setPhone("");
-        setRegNo("");
-        setCourse("");
-        setProgram("");
-        setBloodGroup("");
-        setHorD("");
-        setHostelNo("");
-        setPromotionDetails("");
-        setPromotionDetailsPerson("");
-        setIndividualPerson("");
-        setHelpDesk("");
-        setErrors({});
-      })
-      .catch((error) => {
-        console.error("Error storing data: ", error);
-        swal("Registration failed", "Please try again.", "error");
-      })
-      .finally(() => {
-        setLoading(false);
+    try {
+      const response = await axios.post("https://event-website-main.onrender.com/register", formData, {
+        headers: {
+          "Content-Type": "multipart/form-data"
+        }
       });
+  
+      const message = response.data.message || "Operation successful";
+      swal("Registration Successful!", message, "success").then(() => {
+        navigate("/run-for-equality");
+      });
+  
+      // Reset form fields
+      setName("");
+      setGender("");
+      setDob("");
+      setEmail("");
+      setPhone("");
+      setRegNo("");
+      setCourse("");
+      setProgram("");
+      setBloodGroup("");
+      setHorD("");
+      setHostelNo("");
+      setPromotionDetails("");
+      setPromotionDetailsPerson("");
+      setIndividualPerson("");
+      setHelpDesk("");
+      setOthers("");
+      setPaymentScreenshot(null);
+    } catch (error) {
+      console.error("Error storing data: ", error);
+      swal("Registration failed", "Please try again.", "error");
+    } finally {
+      setLoading(false);
+    }
   };
+  
   
 
   const handleFileChange = (e) => {
@@ -346,8 +340,6 @@ const RegistrationPage = () => {
             <option value="individual">Individual</option>
             <option value="social_media">Social Media</option>
             <option value="help_desk">Help desk</option>
-            <option value="NA">NA</option>
-
 
           </select>
         </div>
@@ -398,8 +390,6 @@ const RegistrationPage = () => {
             <option value="3">Option 3</option>
             <option value="4">Option 4</option>
             <option value="5">Option 5</option>
-            <option value="5">Option 6</option>
-
           </select>
         </div>
       )}
