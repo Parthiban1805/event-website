@@ -346,6 +346,8 @@ const RegistrationPage = () => {
             <option value="individual">Individual</option>
             <option value="social_media">Social Media</option>
             <option value="help_desk">Help desk</option>
+            <option value="NA">NA</option>
+
 
           </select>
         </div>
@@ -396,6 +398,8 @@ const RegistrationPage = () => {
             <option value="3">Option 3</option>
             <option value="4">Option 4</option>
             <option value="5">Option 5</option>
+            <option value="5">Option 6</option>
+
           </select>
         </div>
       )}
