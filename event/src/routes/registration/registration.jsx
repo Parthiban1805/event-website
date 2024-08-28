@@ -130,8 +130,28 @@ const RegistrationPage = () => {
       });
 
       const message = response.data.message || "Operation successful";
-      swal("Registration Successful!", message, "success");
-
+  
+      swal({
+        title: "Registration Successful!",
+        text: message,
+        content: {
+          element: "div",
+          attributes: {
+            innerHTML: `
+              <p>For any queries, please contact:</p>
+              <ul>
+                <li>Lakshan Raghav J R: <a href="tel:+918610590584">+91 86105 90584</a></li>
+                <li>Harshavardhan: <a href="tel:+919963652827">+91 99636 52827</a></li>
+                <li>Vikirthan: <a href="tel:+918190022020">+91 81900 22020</a></li>
+              </ul>
+            `,
+          },
+        },
+        icon: "success",
+      }).then(() => {
+        navigate("/run-for-equality");
+      });
+    
       // Reset the form after successful submission
       setName("");
       setGender("");
@@ -213,6 +233,7 @@ const RegistrationPage = () => {
           <input
             type="text"
             className="field-input"
+            required
             value={name}
             onChange={(e) => setName(e.target.value)}
           />
@@ -222,6 +243,7 @@ const RegistrationPage = () => {
           <select
             className="field-input"
             value={gender}
+            required
             onChange={(e) => setGender(e.target.value)}
           >
             <option value="">Select</option>
@@ -235,6 +257,7 @@ const RegistrationPage = () => {
           <input
             type="date"
             className="field-input"
+            required
             value={dob}
             onChange={(e) => setDob(e.target.value)}
           />
@@ -244,6 +267,7 @@ const RegistrationPage = () => {
           <PhoneInput
             country={"in"}
             value={phone}
+            required
             onChange={(phone) => setPhone(phone)}
             inputStyle={{ width: "90%" }}
           />
@@ -253,6 +277,7 @@ const RegistrationPage = () => {
           <input
             type="email"
             className="field-input"
+            required
             value={email}
             onChange={(e) => setEmail(e.target.value)}
           />
@@ -262,6 +287,7 @@ const RegistrationPage = () => {
           <input
             type="text"
             className="field-input"
+            required
             value={regNo}
             onChange={(e) => setRegNo(e.target.value)}
           />
@@ -271,6 +297,7 @@ const RegistrationPage = () => {
           <select
             className="field-input"
             value={course}
+            required
             onChange={(e) => setCourse(e.target.value)}
           >
             <option value="">Select</option>
@@ -290,6 +317,7 @@ const RegistrationPage = () => {
           <input
             type="text"
             className="field-input"
+            required
             value={program}
             onChange={(e) => setProgram(e.target.value)}
           />
@@ -299,6 +327,7 @@ const RegistrationPage = () => {
           <select
             className="field-input"
             value={bloodGroup}
+            required
             onChange={(e) => setBloodGroup(e.target.value)}
           >
             <option value="">Select</option>
@@ -319,6 +348,7 @@ const RegistrationPage = () => {
             <h3 className="field-title">Blood-Group</h3>
             <input
               type="text"
+              required
               className="field-input"
               value={others}
               onChange={(e) => setOthers(e.target.value)}
@@ -330,6 +360,7 @@ const RegistrationPage = () => {
           <select
             className="field-input"
             value={Register}
+            required
             onChange={(e) => setRegister(e.target.value)}
           >
             <option value="">Select</option>
@@ -337,6 +368,7 @@ const RegistrationPage = () => {
             <option value="individual">Individual</option>
             <option value="social_media">Social Media</option>
             <option value="help_desk">Help desk</option>
+            <option value="NA">NA</option>
 
           </select>
         </div>
@@ -347,6 +379,7 @@ const RegistrationPage = () => {
               <input
                 type="text"
                 className="field-input"
+                required
                 value={promotionDetails}
                 onChange={(e) => setPromotionDetails(e.target.value)}
               />
@@ -356,6 +389,7 @@ const RegistrationPage = () => {
               <input
                 type="text"
                 className="field-input"
+                required
                 value={promotionDetailsPerson}
                 onChange={(e) => setPromotionDetailsPerson(e.target.value)}
               />
@@ -368,6 +402,7 @@ const RegistrationPage = () => {
             <input
               type="text"
               className="field-input"
+              required
               value={IndividualPerson}
               onChange={(e) => setIndividualPerson(e.target.value)}
             />
@@ -379,6 +414,7 @@ const RegistrationPage = () => {
           <select
             className="field-input"
             value={helpDesk}
+            required
             onChange={(e) => setHelpDesk(e.target.value)}
           >
             <option value="">Select</option>
@@ -387,17 +423,17 @@ const RegistrationPage = () => {
             <option value="3">Option 3</option>
             <option value="4">Option 4</option>
             <option value="5">Option 5</option>
+            <option value="6">Option 6</option>
+
           </select>
         </div>
       )}
-
-
-
         <div className="field">
           <h3 className="field-title">Hosteller / Day scholar</h3>
           <select
             className="field-input"
             value={hORd}
+            required
             onChange={(e) => setHorD(e.target.value)}
           >
             <option value="">Select</option>
@@ -411,6 +447,7 @@ const RegistrationPage = () => {
             <input
               type="text"
               className="field-input"
+              required
               value={hostelNo} 
               onChange={(e) => setHostelNo(e.target.value)} 
             />
@@ -421,6 +458,7 @@ const RegistrationPage = () => {
           <button
             className="confirm-button"
             type="button"
+            required
             onClick={handlePaymentClick}
           >
             Make Payment
