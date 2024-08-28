@@ -28,11 +28,7 @@ const RegistrationPage = () => {
   const [errors, setErrors] = useState({});
   const [loading, setLoading] = useState(false);
   const [Register, setRegister] = useState("");
-  const [promotionDetails, setPromotionDetails] = useState("");
-  const [promotionDetailsPerson, setPromotionDetailsPerson] = useState("");
-  const [IndividualPerson, setIndividualPerson] = useState("");
   const[UpiLink1,setUpiLink1]=useState("");
-  const [helpDesk, setHelpDesk] = useState("");
   const[others,setOthers]=useState("");
 
 
@@ -67,16 +63,8 @@ const RegistrationPage = () => {
     if (bloodGroup === "others" && !others) newErrors.others = "Blood group is required";
     if (!hORd) newErrors.hORd = "Hosteller/Dayscholar status is required";
     if (hORd === "Hosteller" && !hostelNo) newErrors.hostelNo = "Hostel number is required";
-    if (!Register) newErrors.Register = "Under which category did you register? is required";
-    if (Register === "promotion" && (!promotionDetails || !promotionDetailsPerson)) {
-      newErrors.promotionDetails = "Promotion details are required";
-    }
-    if (Register === "individual" && !IndividualPerson) {
-      newErrors.IndividualPerson = "Individual Person is required";
-    }
-    if (Register === "help_desk" && !helpDesk) {
-      newErrors.helpDesk = "Help desk is required";
-    }
+    if (!Register) newErrors.Register = "Referred by? is required";
+    
   
     if (Object.keys(newErrors).length > 0) {
       const errorMessages = Object.values(newErrors).join("\n");
@@ -104,22 +92,7 @@ const RegistrationPage = () => {
     formData.append("hostelNo", hostelNo);
     formData.append("registerType", Register);
   
-    if (Register === "promotion") {
-      formData.append("promotionDetails", promotionDetails);
-      formData.append("promotionDetailsPerson", promotionDetailsPerson);
-    } else if (Register === "individual") {
-      formData.append("individualPerson", IndividualPerson);
-    } else if (Register === "help_desk") {
-      formData.append("helpDeskOption", helpDesk);
-    }
-  
-    if (bloodGroup === 'others') {
-      formData.append("others", others);
-    }
-    if (paymentScreenshot) {
-      formData.append("paymentScreenshot", paymentScreenshot);
-    }
-  
+    
     setLoading(true);
   
     try {
@@ -356,78 +329,18 @@ const RegistrationPage = () => {
           </div>
         )}
         <div className="field">
-          <h3 className="field-title">Under which category did you register?</h3>
-          <select
+          <h3 className="field-title">Referred by?</h3>
+          <input
+            type="text"
+            minLength={3}
             className="field-input"
             value={Register}
             required
             onChange={(e) => setRegister(e.target.value)}
-          >
-            <option value="">Select</option>
-            <option value="promotion">Hostel promotion</option>
-            <option value="individual">Individual</option>
-            <option value="social_media">Social Media</option>
-            <option value="help_desk">Help desk</option>
-            <option value="NA">NA</option>
-
-          </select>
+         />
+        
         </div>
-        {Register === "promotion" && (
-          <>
-            <div className="field">
-              <h3 className="field-title">Hostel Number</h3>
-              <input
-                type="text"
-                className="field-input"
-                required
-                value={promotionDetails}
-                onChange={(e) => setPromotionDetails(e.target.value)}
-              />
-            </div>
-            <div className="field">
-              <h3 className="field-title">Person Promoting</h3>
-              <input
-                type="text"
-                className="field-input"
-                required
-                value={promotionDetailsPerson}
-                onChange={(e) => setPromotionDetailsPerson(e.target.value)}
-              />
-            </div>
-          </>
-        )}
-        {Register === "individual" && (
-          <div className="field">
-            <h3 className="field-title">Individual Person</h3>
-            <input
-              type="text"
-              className="field-input"
-              required
-              value={IndividualPerson}
-              onChange={(e) => setIndividualPerson(e.target.value)}
-            />
-          </div>
-        )}
-       {Register === "help_desk" && (
-        <div className="field">
-          <h3 className="field-title">Help Desk Options</h3>
-          <select
-            className="field-input"
-            value={helpDesk}
-            required
-            onChange={(e) => setHelpDesk(e.target.value)}
-          >
-            <option value="">Select</option>
-            <option value="1">Option 1</option>
-            <option value="2">Option 2</option>
-            <option value="3">Option 3</option>
-            <option value="4">Option 4</option>
-            <option value="5">Option 5</option>
-            <option value="6">Option 6</option>
 
-          </select>
-        </div>
-      )}
         <div className="field">
           <h3 className="field-title">Hosteller / Day scholar</h3>
           <select
