@@ -92,6 +92,7 @@ const Table = ({ title, items, currentPage, itemsPerPage, paginate, fetchAllData
               'N/A'
             )}
           </td>
+          <td>{item.registerType || 'N/A'}</td>
           <td>
           <button onClick={() => handleDelete(item._id)}>Delete</button>
           </td>
