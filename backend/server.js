@@ -116,7 +116,7 @@ app.post('/register', upload.single('paymentScreenshot'), async (req, res) => {
         bloodGroup: req.body.bloodGroup,
         hORd: req.body.hORd,
         hostelNo: req.body.hostelNo,
-        paymentScreenshot: req.file ? req.file.path : null
+        paymentScreenshot: req.file ? req.file.path : null,
     };
 
     try {
