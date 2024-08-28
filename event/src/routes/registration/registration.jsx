@@ -31,7 +31,7 @@ const RegistrationPage = () => {
   const [promotionDetails, setPromotionDetails] = useState("");
   const [promotionDetailsPerson, setPromotionDetailsPerson] = useState("");
   const [IndividualPerson, setIndividualPerson] = useState("");
-  
+  const[UpiLink1,setUpiLink1]=useState("");
   const [helpDesk, setHelpDesk] = useState("");
   const[others,setOthers]=useState("");
 
@@ -185,11 +185,15 @@ const RegistrationPage = () => {
 
   const handlePaymentClick = () => {
     const googlePayUpiID = "kobikags-2@oksbi";
+    const googlePayUpiID1 = "vikirthan06-2@okhdfcbank";
+
     const amount = 100;
 
     const upiIntentUrl = `upi://pay?pa=${googlePayUpiID}&pn=Your Company Name&am=${amount}&cu=INR`;
+    const upiIntentUrl1 = `upi://pay?pa=${googlePayUpiID1}&pn=Your Company Name&am=${amount}&cu=INR`;
 
     setUpiLink(upiIntentUrl);
+    setUpiLink1(upiIntentUrl1);
     setShowPaymentOptions(true);
   };
 
@@ -424,14 +428,23 @@ const RegistrationPage = () => {
         </div>
         {showPaymentOptions && (
           <div>
-            <div className="field">
-              <h3 className="field-title">UPI ID:kobikags-2@oksbi</h3>
-              <a href={upiLink} target="_blank" rel="noopener noreferrer">
-                <p type="button">
-                  Pay ₹100
-                </p>
-              </a>
-            </div>
+        <div className="field">
+          <h3 className="field-title">UPI ID: kobikags-2@oksbi</h3>
+          <a href={upiLink} target="_blank" rel="noopener noreferrer" className="upi-link">
+            <button type="button" className="upi-button">
+              Pay ₹100
+            </button>
+          </a>
+        </div>
+        <div className="field">
+          <h3 className="field-title">UPI ID: vikirthan06-2@okhdfcbank</h3>
+          <a href={UpiLink1} target="_blank" rel="noopener noreferrer" className="upi-link1">
+            <p className="upi-or">or</p>
+            <button type="button" className="upi-button1">
+              Pay ₹100
+            </button>
+          </a>
+        </div>
             <div className="field">
               <h3 className="field-title">Upload payment screenshot</h3>
               <input type="file" 
