@@ -9,10 +9,23 @@ const AdminPage = () => {
   const [allData, setAllData] = useState([]);
   const [viewAll, setViewAll] = useState(false);
 
-  // Function to handle item deletion
-  const deleteItem = (id) => {
-    setReservationDetails(reservationDetails.filter(item => item.id !== id));
+  const deleteItem = async (id) => {
+    if (window.confirm("Are you sure you want to delete this item?")) {
+      try {
+        const response = await fetch(`https://event-website-main.onrender.com/delete/${id}`, {
+          method: 'DELETE'
+        });
+        if (response.ok) {
+          setReservationDetails(reservationDetails.filter(item => item._id !== id)); // Update based on MongoDB _id
+        } else {
+          console.error("Failed to delete item:", await response.json());
+        }
+      } catch (error) {
+        console.error("Error deleting item:", error);
+      }
+    }
   };
+
 
   const paginate = (pageNumber) => {
     setCurrentPage(pageNumber);

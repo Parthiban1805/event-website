@@ -16,15 +16,12 @@ const Table = ({ title, items, currentPage, itemsPerPage, paginate, fetchAllData
 
   const totalPages = Math.ceil(filteredItems.length / itemsPerPage);
   const pageNumbers = Array.from({ length: totalPages }, (_, i) => i + 1);
-  const handleDelete = async (id) => {
-    try {
-      await axios.delete(`https://event-website-main.onrender.com/delete/${id}`);
-      setUsers(users.filter(user => user._id !== id));
-  } catch (error) {
-      setError('Error deleting user');
-      console.error("Error deleting user:", error);
-  }
-};
+ 
+  const handleDelete = (id) => {
+    if (window.confirm('Are you sure you want to delete this item?')) {
+      deleteItem(id);
+    }
+  };
 
   
 
