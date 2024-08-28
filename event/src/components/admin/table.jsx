@@ -18,20 +18,14 @@ const Table = ({ title, items, currentPage, itemsPerPage, paginate, fetchAllData
   const pageNumbers = Array.from({ length: totalPages }, (_, i) => i + 1);
   const handleDelete = async (id) => {
     try {
-      const response = await fetch(`https://event-website-main.onrender.com/delete/${id}`, {
-        method: 'DELETE',
-      });
-  
-      if (response.ok) {
-        alert('Registration deleted successfully');
-        setReservationDetails(reservationDetails.filter(item => item._id !== id));  // Remove from state
-      } else {
-        alert('Error deleting registration');
-      }
-    } catch (error) {
-      console.error('Error deleting registration:', error);
-    }
-  };
+      await axios.delete(`https://event-website-main.onrender.com/delete/${id}`);
+      setUsers(users.filter(user => user._id !== id));
+  } catch (error) {
+      setError('Error deleting user');
+      console.error("Error deleting user:", error);
+  }
+};
+
   
 
   return (
