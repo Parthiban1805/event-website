@@ -9,6 +9,11 @@ const AdminPage = () => {
   const [allData, setAllData] = useState([]);
   const [viewAll, setViewAll] = useState(false);
 
+  // Function to handle item deletion
+  const deleteItem = (id) => {
+    setReservationDetails(reservationDetails.filter(item => item.id !== id));
+  };
+
   const paginate = (pageNumber) => {
     setCurrentPage(pageNumber);
   };
@@ -76,6 +81,7 @@ const AdminPage = () => {
             paginate={paginate}
             fetchAllData={fetchAllData}
             viewAll={viewAll}
+            deleteItem={deleteItem} // Pass deleteItem function to Table component
           />
         </div>
       </div>

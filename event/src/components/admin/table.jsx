@@ -3,7 +3,7 @@ import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import './table.css';
 
-const Table = ({ title, items, currentPage, itemsPerPage, paginate, fetchAllData, viewAll }) => {
+const Table = ({ title, items, currentPage, itemsPerPage, paginate, fetchAllData, viewAll, deleteItem }) => {
   const [search, setSearch] = useState('');
 
   const filteredItems = items.filter((item) =>
@@ -16,6 +16,23 @@ const Table = ({ title, items, currentPage, itemsPerPage, paginate, fetchAllData
 
   const totalPages = Math.ceil(filteredItems.length / itemsPerPage);
   const pageNumbers = Array.from({ length: totalPages }, (_, i) => i + 1);
+  const handleDelete = async (id) => {
+    try {
+      const response = await fetch(`https://your-server-url.com/delete/${id}`, {
+        method: 'DELETE',
+      });
+  
+      if (response.ok) {
+        alert('Registration deleted successfully');
+        setReservationDetails(reservationDetails.filter(item => item._id !== id));  // Remove from state
+      } else {
+        alert('Error deleting registration');
+      }
+    } catch (error) {
+      console.error('Error deleting registration:', error);
+    }
+  };
+  
 
   return (
     <div className="table-section">
@@ -46,6 +63,7 @@ const Table = ({ title, items, currentPage, itemsPerPage, paginate, fetchAllData
         <table className="table-content">
           <thead>
             <tr>
+              <th>Serial No</th>
               <th>Name</th>
               <th>Gender</th>
               <th>Date of Birth</th>
@@ -58,53 +76,53 @@ const Table = ({ title, items, currentPage, itemsPerPage, paginate, fetchAllData
               <th>Payment Screenshot</th>
               <th>Category did you register</th>
               <th>Additional Details</th>
+              <th>Actions</th> {/* Added Actions column for the Delete button */}
             </tr>
           </thead>
           <tbody>
-            {displayedItems.length > 0 ? (
-              displayedItems.map((item, index) => {
-                // Extract the file name from the full path
-                const fileName = item.paymentScreenshot
-                  ? item.paymentScreenshot.split('/').pop()
-                  : null;
+          {displayedItems.length > 0 ? (
+            displayedItems.map((item, index) => {
+              const fileName = item.paymentScreenshot ? item.paymentScreenshot.split('/').pop() : null;
 
-                return (
-                  <tr key={index}>
-                    <td>{item.name || 'N/A'}</td>
-                    <td>{item.gender || 'N/A'}</td>
-                    <td>{item.dob || 'N/A'}</td>
-                    <td>{item.email || 'N/A'}</td>
-                    <td>{item.phone || 'N/A'}</td>
-                    <td>{item.regNo || 'N/A'}</td>
-                    <td>{item.course || 'N/A'}</td>
-                    <td>{item.hORd || 'N/A'}</td>
-                    <td>{item.hostelID || 'N/A'}</td>
-                    <td>
-                      {fileName ? (
-                        <Link to={`https://event-website-main.onrender.com/uploads/${fileName}`}>
-                          View
-                        </Link>
-                      ) : (
-                        'N/A'
-                      )}
-                    </td>
-                    <td>{item.registerType || 'N/A'}</td>
-                    <td>
-                      Promotion Details: {item.promotionDetails || 'N/A'}
-                      <br />
-                      Person Promoting: {item.promotionDetailsPerson || 'N/A'}
-                    </td>
-                    <td>Individual Person: {item.individualPerson || 'N/A'}</td>
-                    <td>Help Desk Option: {item.helpDeskOption || 'N/A'}</td>
-                  </tr>
-                );
-              })
+      return (
+        <tr key={index}>
+          <td>{item.name || 'N/A'}</td>
+          <td>{item.gender || 'N/A'}</td>
+          <td>{item.dob || 'N/A'}</td>
+          <td>{item.email || 'N/A'}</td>
+          <td>{item.phone || 'N/A'}</td>
+          <td>{item.regNo || 'N/A'}</td>
+          <td>{item.course || 'N/A'}</td>
+          <td>{item.hORd || 'N/A'}</td>
+          <td>{item.hostelID || 'N/A'}</td>
+          <td>
+            {fileName ? (
+              <Link to={`https://event-website-main.onrender.com/uploads/${fileName}`}>View</Link>
             ) : (
-              <tr>
-                <td colSpan="14">No data available</td>
-              </tr>
+              'N/A'
             )}
-          </tbody>
+          </td>
+          <td>{item.registerType || 'N/A'}</td>
+          <td>
+            Promotion Details: {item.promotionDetails || 'N/A'}
+            <br />
+            Person Promoting: {item.promotionDetailsPerson || 'N/A'}
+          </td>
+          <td>Individual Person: {item.individualPerson || 'N/A'}</td>
+          <td>Help Desk Option: {item.helpDeskOption || 'N/A'}</td>
+          <td>
+          <button onClick={() => handleDelete(item._id)}>Delete</button>
+          </td>
+        </tr>
+      );
+    })
+  ) : (
+    <tr>
+      <td colSpan="14">No data available</td>
+    </tr>
+  )}
+</tbody>
+
         </table>
       </div>
 
@@ -143,6 +161,7 @@ Table.propTypes = {
   paginate: PropTypes.func.isRequired,
   fetchAllData: PropTypes.func.isRequired,
   viewAll: PropTypes.bool.isRequired,
+  deleteItem: PropTypes.func.isRequired, // Added PropType validation for deleteItem
 };
 
 export default Table;

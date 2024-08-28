@@ -221,6 +221,28 @@ app.get('/table', async (req, res) => {
       }
     });
   });
+  // DELETE endpoint to remove a registration by ID
+      app.delete('/delete/:id', async (req, res) => {
+        const registrationId = req.params.id;
+
+        try {
+            const result = await collection.deleteOne({ _id: new MongoClient.ObjectID(registrationId) });
+            
+            if (result.deletedCount === 1) {
+                console.log(`Successfully deleted registration with ID: ${registrationId}`);
+                res.status(200).json({ message: "Registration deleted successfully" });
+                
+                // Optionally, if you want to remove it from Excel as well
+                removeFromExcel(registrationId);
+            } else {
+                res.status(404).json({ message: "Registration not found" });
+            }
+        } catch (error) {
+            console.error('Error deleting registration:', error);
+            res.status(500).json({ message: 'Error deleting registration' });
+        }
+      });
+
   
   app.get('/', (req, res) => {
     res.send('Hello World!');
