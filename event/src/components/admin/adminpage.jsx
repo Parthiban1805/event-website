@@ -16,29 +16,35 @@ const AdminPage = () => {
   const fetchData = async () => {
     try {
       const response = await fetch(`https://event-website-main.onrender.com/table`);
-      const data = await response.json();
+      
       if (response.ok) {
-        if (Array.isArray(data)) {
-          setReservationDetails(data);
-          setAllData(data);
+        const contentType = response.headers.get("content-type");
+        if (contentType && contentType.includes("application/json")) {
+          const data = await response.json();
+          if (Array.isArray(data)) {
+            setReservationDetails(data);
+            setAllData(data);
+          } else {
+            console.error("Unexpected data format:", JSON.stringify(data, null, 2));
+          }
         } else {
-          console.error("Unexpected data format:", JSON.stringify(data, null, 2));
+          const rawText = await response.text();
+          console.error("Unexpected response format:", rawText);
         }
       } else {
-        console.error("API Error:", data.error);
+        console.error(`HTTP error! Status: ${response.status}, StatusText: ${response.statusText}`);
+        const rawText = await response.text(); // Capture the error page
+        console.error("Error page content:", rawText); // Log the HTML error page
       }
     } catch (error) {
       console.error("Error fetching data: ", error);
     }
   };
-
+  
   useEffect(() => {
     fetchData();
   }, []);
-
-  const fetchAllData = () => {
-    setViewAll(!viewAll);
-  };
+  
 
   return (
     <div className="admin-page-container">
