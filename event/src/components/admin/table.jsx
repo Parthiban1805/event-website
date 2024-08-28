@@ -65,8 +65,7 @@ const Table = ({ title, items, currentPage, itemsPerPage, paginate, fetchAllData
               <th>Hostel/Day Scholar</th>
               <th>Hostel ID</th>
               <th>Payment Screenshot</th>
-              <th>Category did you register</th>
-              <th>Additional Details</th>
+              <th>Referred by</th>
               <th>Actions</th> {/* Added Actions column for the Delete button */}
             </tr>
           </thead>
@@ -93,14 +92,6 @@ const Table = ({ title, items, currentPage, itemsPerPage, paginate, fetchAllData
               'N/A'
             )}
           </td>
-          <td>{item.registerType || 'N/A'}</td>
-          <td>
-            Promotion Details: {item.promotionDetails || 'N/A'}
-            <br />
-            Person Promoting: {item.promotionDetailsPerson || 'N/A'}
-          </td>
-          <td>Individual Person: {item.individualPerson || 'N/A'}</td>
-          <td>Help Desk Option: {item.helpDeskOption || 'N/A'}</td>
           <td>
           <button onClick={() => handleDelete(item._id)}>Delete</button>
           </td>
