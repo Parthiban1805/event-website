@@ -1,193 +1,154 @@
 const express = require('express');
+const bodyParser = require('body-parser');
 const multer = require('multer');
-const { MongoClient } = require('mongodb');
-const cors = require('cors');
-const bcrypt = require('bcrypt');
+const xlsx = require('xlsx');
 const fs = require('fs');
 const path = require('path');
-const bodyParser = require('body-parser');
-const xlsx = require('xlsx'); // Add this line to include xlsx
+const cors = require('cors');
+const { google } = require('googleapis');
+const { MongoClient } = require('mongodb');
+
 const app = express();
-const port = 5000;
-const dbName = 'registrationDB';
-const collectionName = 'registrations';
-const uri = `mongodb+srv://parthis1805:Parthiban1805@registeration.j2v4mdr.mongodb.net/${dbName}?retryWrites=true&w=majority&appName=registeration`;
-const uploadDir = 'uploads';
-
-if (!fs.existsSync(uploadDir)) {
-  fs.mkdirSync(uploadDir);
-}
-
-const storage = multer.diskStorage({
-  destination: (req, file, cb) => {
-    cb(null, uploadDir);
-  },
-  filename: (req, file, cb) => {
-    cb(null, Date.now() + '-' + file.originalname);
-  },
-});
-const upload = multer({ storage });
+const upload = multer({ dest: 'uploads/' });
 
 app.use(cors());
-app.use(express.json());
 app.use(bodyParser.json());
-app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
+app.use(bodyParser.urlencoded({ extended: true }));
 
+// MongoDB setup
+const dbName = 'registrationDB';
+const collectionName = 'registrations';
+const uri = "mongodb+srv://parthis1805:Parthiban1805@registeration.j2v4mdr.mongodb.net/${dbName}?retryWrites=true&w=majority&appName=registeration";
 const client = new MongoClient(uri, { useNewUrlParser: true, useUnifiedTopology: true });
 
-async function connectToMongoDB() {
-  try {
-    await client.connect();
-    console.log("Connected to MongoDB");
-  } catch (error) {
+client.connect().catch(error => {
     console.error('Error connecting to MongoDB:', error);
-    process.exit(1);
-  }
-}
-connectToMongoDB();
+});
+const database = client.db(dbName);
+const collection = database.collection(collectionName);
 
-function saveToExcel(data) {
-  console.log('Register endpoint hit.');
+// Google Sheets API setup
+const SCOPES = ['https://www.googleapis.com/auth/spreadsheets', 'https://www.googleapis.com/auth/drive.file'];
+const CREDENTIALS = JSON.parse(fs.readFileSync('./vast-torus-433812-c5-ded7ea143272.json'));
+const spreadsheetId = '1EiRGfsLb0V6ed9S4sXOJa0HFdFVADRUqXmucoy832GQ';
 
-  const excelFile = path.join(__dirname, 'registrations.xlsx');
-  console.log(`Saving to Excel file at: ${excelFile}`);
+const authClient = new google.auth.GoogleAuth({
+    credentials: CREDENTIALS,
+    scopes: SCOPES,
+});
 
-  let workbook;
-  if (fs.existsSync(excelFile)) {
-    workbook = xlsx.readFile(excelFile);
-    console.log('Existing file found, updating it.');
-  } else {
-    workbook = xlsx.utils.book_new();
-    console.log('No existing file found, creating a new one.');
-  }
+const sheets = google.sheets('v4');
+const drive = google.drive('v3');
 
-  const sheetName = 'Registrations';
-  let worksheet = workbook.Sheets[sheetName];
+// Function to upload file to Google Drive
+const uploadFileToDrive = async (filePath, fileName) => {
+    const auth = await authClient.getClient();
 
-  if (!worksheet) {
-    worksheet = xlsx.utils.json_to_sheet([]);
-    xlsx.utils.book_append_sheet(workbook, worksheet, sheetName);
-  }
-
-  const dataJson = xlsx.utils.sheet_to_json(worksheet);
-  dataJson.push(data);
-
-  const updatedWorksheet = xlsx.utils.json_to_sheet(dataJson);
-  workbook.Sheets[sheetName] = updatedWorksheet;
-
-  xlsx.writeFile(workbook, excelFile);
-  console.log('Excel file saved successfully.');
-}
-
-
-app.post('/register', upload.single('paymentScreenshot'), async (req, res) => {
-  fs.access(uploadDir, fs.constants.W_OK, (err) => {
-    if (err) {
-      console.error('Directory is not writable:', err);
-    } else {
-      console.log('Directory is writable');
-    }
-  });
-
-  if (!req.file) {
-    return res.status(400).send('No file uploaded.');
-  }
-  console.log('Register endpoint hit.');
-
-  try {
-    const registrationData = {
-      name: req.body.name,
-      gender: req.body.gender,
-      dob: req.body.dob,
-      email: req.body.email,
-      phone: req.body.phone,
-      regNo: req.body.regNo,
-      course: req.body.course,
-      program: req.body.program,
-      bloodGroup: req.body.bloodGroup,
-      hORd: req.body.hORd,
-      hostelID: req.body.hostelID,
-      paymentScreenshot: `/uploads/${req.file.filename}`,
-      registerType: req.body.registerType,
-      promotionDetails: req.body.registerType === "promotion" ? req.body.promotionDetails : undefined,
-      promotionDetailsPerson: req.body.registerType === "promotion" ? req.body.promotionDetailsPerson : undefined,
-      individualPerson: req.body.registerType === "individual" ? req.body.individualPerson : undefined,
-      helpDeskOption: req.body.registerType === "help_desk" ? req.body.helpDeskOption : undefined,
+    const folderId = '1F1cJOw4rACbWVLI24tN1-yJ0dnz-kHM5';  // Replace with the folder ID where you want to upload
+    const fileMetadata = {
+        name: fileName,
+        parents: [folderId]
+    };
+    const media = {
+        mimeType: 'image/jpeg',  // Adjust according to your file type
+        body: fs.createReadStream(filePath)
     };
 
-    console.log('Uploaded file:', req.file);
+    const response = await drive.files.create({
+        auth,
+        resource: fileMetadata,
+        media: media,
+        fields: 'id, webViewLink',
+    });
 
-    const database = client.db(dbName);
-    const collection = database.collection(collectionName);
+    return response.data;
+};
 
-    // Store data in MongoDB
-    const result = await collection.insertOne(registrationData);
-    console.log('Registration data stored in MongoDB:', result.insertedId);
+// Function to save data to Excel
+const saveToExcel = (data) => {
+    const filepath = path.join(__dirname, 'registration.xlsx');
+    let workbook;
+    let worksheet;
 
-    // Store data in Excel
-    saveToExcel(registrationData);
-
-    res.status(200).send('Registration successful!');
-  } catch (error) {
-    console.error('Error storing data in MongoDB:', error.message);
-    res.status(500).send(`Error storing data: ${error.message}`);
-  }
-});
-
-app.get('/table', async (req, res) => {
-  try {
-    const database = client.db(dbName);
-    const collection = database.collection(collectionName);
-    const results = await collection.find({}).toArray();
-    console.log('Data fetched successfully:', results);
-    res.status(200).json(results);
-  } catch (error) {
-    console.error('Error fetching data from MongoDB:', error);
-    res.status(500).send('Error fetching data');
-  }
-});
-
-app.post('/admin-login', async (req, res) => {
-  const { email, password } = req.body;
-  try {
-    const database = client.db("adminDB");
-    const collection = database.collection("signup");
-    const admin = await collection.findOne({ email });
-    if (admin) {
-      const isMatch = await bcrypt.compare(password, admin.password);
-      if (isMatch) {
-        res.status(200).json({ message: "Signin successful" });
-      } else {
-        res.status(401).json({ message: "Invalid credentials" });
-      }
+    if (fs.existsSync(filepath)) {
+        workbook = xlsx.readFile(filepath);
+        worksheet = workbook.Sheets['Registrations'] || workbook.Sheets[workbook.SheetNames[0]];
+        const jsonData = xlsx.utils.sheet_to_json(worksheet) || [];
+        jsonData.push(data);
+        worksheet = xlsx.utils.json_to_sheet(jsonData);
     } else {
-      res.status(401).json({ message: "Invalid credentials" });
+        workbook = xlsx.utils.book_new();
+        worksheet = xlsx.utils.json_to_sheet([data]);
+        xlsx.utils.book_append_sheet(workbook, worksheet, 'Registrations');
     }
-  } catch (error) {
-    console.error('Error fetching data from MongoDB:', error);
-    res.status(500).json({ error: 'Error fetching data' });
-  }
-});
-app.get('/download-excel', (req, res) => {
-  const filePath = path.join(__dirname, 'registrations.xlsx');
-  res.download(filePath, 'registrations.xlsx', (err) => {
-    if (err) {
-      console.error('Error downloading the file:', err);
-      res.status(500).send('Error downloading the file.');
+
+    workbook.Sheets['Registrations'] = worksheet;
+    xlsx.writeFile(workbook, filepath);
+};
+
+// Function to append data to Google Sheets
+const appendDataToGoogleSheet = async (data) => {
+    const auth = await authClient.getClient();
+    const request = {
+        spreadsheetId,
+        range: 'Sheet1!A1',
+        valueInputOption: 'RAW',
+        insertDataOption: 'INSERT_ROWS',
+        resource: {
+            values: [data],
+        },
+        auth,
+    };
+    await sheets.spreadsheets.values.append(request);
+};
+
+// Registration endpoint
+app.post('/register', upload.single('paymentScreenshot'), async (req, res) => {
+    const registrationData = {
+        name: req.body.name,
+        gender: req.body.gender,
+        dob: req.body.dob,
+        email: req.body.email,
+        phone: req.body.phone,
+        regNo: req.body.regNo,
+        course: req.body.course,
+        program: req.body.program,
+        bloodGroup: req.body.bloodGroup,
+        hORd: req.body.hORd,
+        hostelNo: req.body.hostelNo,
+        paymentScreenshot: req.file ? req.file.path : null
+    };
+
+    try {
+        // Upload file to Google Drive
+        let driveData = null;
+        if (req.file) {
+            driveData = await uploadFileToDrive(req.file.path, req.file.originalname);
+            registrationData.paymentScreenshot = driveData.webViewLink;  // Store the file's web view link
+        }
+
+        // Store data in MongoDB
+        const result = await collection.insertOne(registrationData);
+        console.log('Registration data stored in MongoDB:', result.insertedId);
+
+        // Save to Excel
+        saveToExcel(registrationData);
+        console.log('Data saved to Excel.');
+
+        // Prepare data for Google Sheets
+        const sheetData = Object.values(registrationData);
+
+        // Append data to Google Sheets
+        await appendDataToGoogleSheet(sheetData);
+        console.log('Data appended to Google Sheets.');
+
+        res.status(200).json({ message: "Registration successful" });
+    } catch (error) {
+        console.error("Error during registration:", error);
+        res.status(500).json({ message: "Failed to save registration" });
     }
-  });
 });
 
-app.get('/', (req, res) => {
-  res.send('Hello World!');
-});
-
-app.listen(port, () => {
-  console.log(`Server running at http://localhost:${port}`);
-});
-
-process.on('SIGINT', async () => {
-  await client.close();
-  console.log('MongoDB connection closed');
-  process.exit(0);
+app.listen(3001, () => {
+    console.log('Server started on port 3001');
 });

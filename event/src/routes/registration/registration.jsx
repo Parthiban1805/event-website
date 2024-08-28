@@ -123,18 +123,16 @@ const RegistrationPage = () => {
     setLoading(true);
   
     try {
-      const response = await axios.post("https://event-website-main.onrender.com/register", formData, {
+      const response = await axios.post("http://localhost:3001/register", formData, {
         headers: {
-          "Content-Type": "multipart/form-data"
-        }
+          "Content-Type": "multipart/form-data",
+        },
       });
-  
+
       const message = response.data.message || "Operation successful";
-      swal("Registration Successful!", message, "success").then(() => {
-        navigate("/run-for-equality");
-      });
-  
-      // Reset form fields
+      swal("Registration Successful!", message, "success");
+
+      // Reset the form after successful submission
       setName("");
       setGender("");
       setDob("");
@@ -146,14 +144,9 @@ const RegistrationPage = () => {
       setBloodGroup("");
       setHorD("");
       setHostelNo("");
-      setPromotionDetails("");
-      setPromotionDetailsPerson("");
-      setIndividualPerson("");
-      setHelpDesk("");
-      setOthers("");
       setPaymentScreenshot(null);
     } catch (error) {
-      console.error("Error storing data: ", error);
+      console.error("Error submitting form: ", error);
       swal("Registration failed", "Please try again.", "error");
     } finally {
       setLoading(false);
@@ -217,7 +210,6 @@ const RegistrationPage = () => {
             type="text"
             className="field-input"
             value={name}
-            required
             onChange={(e) => setName(e.target.value)}
           />
         </div>
@@ -226,7 +218,6 @@ const RegistrationPage = () => {
           <select
             className="field-input"
             value={gender}
-            required
             onChange={(e) => setGender(e.target.value)}
           >
             <option value="">Select</option>
@@ -239,7 +230,6 @@ const RegistrationPage = () => {
           <h3 className="field-title">Date of Birth</h3>
           <input
             type="date"
-            required
             className="field-input"
             value={dob}
             onChange={(e) => setDob(e.target.value)}
@@ -249,7 +239,6 @@ const RegistrationPage = () => {
           <h3 className="field-title">Phone Number</h3>
           <PhoneInput
             country={"in"}
-            required
             value={phone}
             onChange={(phone) => setPhone(phone)}
             inputStyle={{ width: "90%" }}
@@ -259,7 +248,6 @@ const RegistrationPage = () => {
           <h3 className="field-title">Email</h3>
           <input
             type="email"
-            required
             className="field-input"
             value={email}
             onChange={(e) => setEmail(e.target.value)}
@@ -270,7 +258,6 @@ const RegistrationPage = () => {
           <input
             type="text"
             className="field-input"
-            required
             value={regNo}
             onChange={(e) => setRegNo(e.target.value)}
           />
@@ -279,7 +266,6 @@ const RegistrationPage = () => {
           <h3 className="field-title">Course</h3>
           <select
             className="field-input"
-            required
             value={course}
             onChange={(e) => setCourse(e.target.value)}
           >
@@ -301,7 +287,6 @@ const RegistrationPage = () => {
             type="text"
             className="field-input"
             value={program}
-            required
             onChange={(e) => setProgram(e.target.value)}
           />
         </div>
@@ -310,7 +295,6 @@ const RegistrationPage = () => {
           <select
             className="field-input"
             value={bloodGroup}
-            required
             onChange={(e) => setBloodGroup(e.target.value)}
           >
             <option value="">Select</option>
@@ -333,7 +317,6 @@ const RegistrationPage = () => {
               type="text"
               className="field-input"
               value={others}
-              required
               onChange={(e) => setOthers(e.target.value)}
             />
           </div>
@@ -343,7 +326,6 @@ const RegistrationPage = () => {
           <select
             className="field-input"
             value={Register}
-            required
             onChange={(e) => setRegister(e.target.value)}
           >
             <option value="">Select</option>
@@ -360,8 +342,7 @@ const RegistrationPage = () => {
               <h3 className="field-title">Hostel Number</h3>
               <input
                 type="text"
-                className="field-input"            
-                required
+                className="field-input"
                 value={promotionDetails}
                 onChange={(e) => setPromotionDetails(e.target.value)}
               />
@@ -371,7 +352,6 @@ const RegistrationPage = () => {
               <input
                 type="text"
                 className="field-input"
-                required
                 value={promotionDetailsPerson}
                 onChange={(e) => setPromotionDetailsPerson(e.target.value)}
               />
@@ -385,7 +365,6 @@ const RegistrationPage = () => {
               type="text"
               className="field-input"
               value={IndividualPerson}
-              required
               onChange={(e) => setIndividualPerson(e.target.value)}
             />
           </div>
@@ -395,7 +374,6 @@ const RegistrationPage = () => {
           <h3 className="field-title">Help Desk Options</h3>
           <select
             className="field-input"
-            required
             value={helpDesk}
             onChange={(e) => setHelpDesk(e.target.value)}
           >
@@ -416,7 +394,6 @@ const RegistrationPage = () => {
           <select
             className="field-input"
             value={hORd}
-            required
             onChange={(e) => setHorD(e.target.value)}
           >
             <option value="">Select</option>
@@ -429,7 +406,6 @@ const RegistrationPage = () => {
             <h3 className="field-title">Hostel Number</h3>
             <input
               type="text"
-              required
               className="field-input"
               value={hostelNo} 
               onChange={(e) => setHostelNo(e.target.value)} 
