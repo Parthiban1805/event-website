@@ -76,6 +76,7 @@ const Table = ({ title, items, currentPage, itemsPerPage, paginate, fetchAllData
 
       return (
         <tr key={index}>
+          <td>{(currentPage - 1) * itemsPerPage + index + 1}</td> {/* Serial No */}
           <td>{item.name || 'N/A'}</td>
           <td>{item.gender || 'N/A'}</td>
           <td>{item.dob || 'N/A'}</td>
