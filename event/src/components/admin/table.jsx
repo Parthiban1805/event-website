@@ -18,7 +18,7 @@ const Table = ({ title, items, currentPage, itemsPerPage, paginate, fetchAllData
   const pageNumbers = Array.from({ length: totalPages }, (_, i) => i + 1);
   const handleDelete = async (id) => {
     try {
-      const response = await fetch(`https://your-server-url.com/delete/${id}`, {
+      const response = await fetch(`https://event-website-main.onrender.com/delete/${id}`, {
         method: 'DELETE',
       });
   
