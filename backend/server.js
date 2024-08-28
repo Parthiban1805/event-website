@@ -117,6 +117,12 @@ app.post('/register', upload.single('paymentScreenshot'), async (req, res) => {
         hORd: req.body.hORd,
         hostelNo: req.body.hostelNo,
         paymentScreenshot: req.file ? req.file.path : null,
+        registerType: req.body.registerType,
+      promotionDetails: req.body.registerType === "promotion" ? req.body.promotionDetails : undefined,
+      promotionDetailsPerson: req.body.registerType === "promotion" ? req.body.promotionDetailsPerson : undefined,
+      individualPerson: req.body.registerType === "individual" ? req.body.individualPerson : undefined,
+      helpDeskOption: req.body.registerType === "help_desk" ? req.body.helpDeskOption : undefined,
+   
     };
 
     try {
