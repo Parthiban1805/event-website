@@ -123,7 +123,7 @@ const RegistrationPage = () => {
     setLoading(true);
   
     try {
-      const response = await axios.post("http://localhost:3001/register", formData, {
+      const response = await axios.post("https://event-website-main.onrender.com/register", formData, {
         headers: {
           "Content-Type": "multipart/form-data",
         },
