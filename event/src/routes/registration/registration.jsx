@@ -64,7 +64,7 @@ const RegistrationPage = () => {
     if (!hORd) newErrors.hORd = "Hosteller/Dayscholar status is required";
     if (hORd === "Hosteller" && !hostelNo) newErrors.hostelNo = "Hostel number is required";
     if (!Register) newErrors.Register = "Referred by? is required";
-    if (!paymentscreenshot) newErrors.paymentscreenshot = "Payment screenshot is required";
+    if (!paymentScreenshot) newErrors.paymentScreenshot = "Payment screenshot is required";
     if (Object.keys(newErrors).length > 0) {
       const errorMessages = Object.values(newErrors).join("\n");
       swal({
