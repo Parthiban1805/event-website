@@ -85,7 +85,7 @@ const Table = ({ title, items, currentPage, itemsPerPage, paginate, fetchAllData
           <td>{item.regNo || 'N/A'}</td>
           <td>{item.course || 'N/A'}</td>
           <td>{item.hORd || 'N/A'}</td>
-          <td>{item.hostelID || 'N/A'}</td>
+          <td>{item.hostelID}</td>
           <td>
             {fileName ? (
               <Link to={`https://event-website-main.onrender.com/uploads/${fileName}`}>View</Link>

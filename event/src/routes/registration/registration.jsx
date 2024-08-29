@@ -30,22 +30,6 @@ const RegistrationPage = () => {
   const [Register, setRegister] = useState("");
   const[UpiLink1,setUpiLink1]=useState("");
   const[others,setOthers]=useState("");
-
-
-
-  useEffect(() => {
-    if (hORd === "Hosteller") {
-      if (gender === "male") {
-        setHostelNo("BH-");
-      } else if (gender === "female") {
-        setHostelNo("GH-");
-      }
-    } else {
-      setHostelNo(""); 
-    }
-  }, [gender, hORd]);
-
-
   const handleSubmit = async (e) => {
     e.preventDefault();
   
@@ -63,11 +47,9 @@ const RegistrationPage = () => {
     if (bloodGroup === "others" && !others) newErrors.others = "Blood group is required";
     if (!hORd) newErrors.hORd = "Hosteller/Dayscholar status is required";
     if (hORd === "Hosteller") {
-      if (!hostelNo || hostelNo === "BH-") {
+      if (!hostelNo) {
           newErrors.hostelNo = "Please enter your hostel number after 'BH-'";
-      } else if (!/^BH-\w+/.test(hostelNo)) {
-          newErrors.hostelNo = "Hostel number must start with 'BH-' followed by a valid number or text.";
-      }
+      } 
   }
 
   if (!Register) newErrors.Register = "Referred by? is required";
@@ -369,7 +351,7 @@ const RegistrationPage = () => {
               className="field-input"
               required={hORd === "Hosteller"}
               value={hostelNo} 
-              minLength={4}
+              minLength={2}
               onChange={(e) => setHostelNo(e.target.value)} 
             />
           </div>
