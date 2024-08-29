@@ -97,6 +97,7 @@ const RegistrationPage = () => {
     formData.append("hORd", hORd);
     formData.append("hostelNo", hostelNo);
     formData.append("registerType", Register);
+    formData.append("paymentScreenshot",paymentScreenshot);
   
     
     setLoading(true);
