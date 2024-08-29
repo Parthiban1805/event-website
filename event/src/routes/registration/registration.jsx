@@ -62,8 +62,15 @@ const RegistrationPage = () => {
     if (!bloodGroup) newErrors.bloodGroup = "Blood group is required";
     if (bloodGroup === "others" && !others) newErrors.others = "Blood group is required";
     if (!hORd) newErrors.hORd = "Hosteller/Dayscholar status is required";
-    if (hORd === "Hosteller" && !hostelNo) newErrors.hostelNo = "Hostel number is required";
-    if (!Register) newErrors.Register = "Referred by? is required";
+    if (hORd === "Hosteller") {
+      if (!hostelNo || hostelNo === "BH-") {
+          newErrors.hostelNo = "Please enter your hostel number after 'BH-'";
+      } else if (!/^BH-\w+/.test(hostelNo)) {
+          newErrors.hostelNo = "Hostel number must start with 'BH-' followed by a valid number or text.";
+      }
+  }
+
+  if (!Register) newErrors.Register = "Referred by? is required";
     if (!paymentScreenshot) newErrors.paymentScreenshot = "Payment screenshot is required";
     if (Object.keys(newErrors).length > 0) {
       const errorMessages = Object.values(newErrors).join("\n");
@@ -359,8 +366,9 @@ const RegistrationPage = () => {
             <input
               type="text"
               className="field-input"
-              required
+              required={hORd === "Hosteller"}
               value={hostelNo} 
+              minLength={4}
               onChange={(e) => setHostelNo(e.target.value)} 
             />
           </div>
