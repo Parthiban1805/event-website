@@ -112,7 +112,7 @@ const About = () => {
           Core Team
         </motion.h1>
         <div className="team-member-image-container">
-          {teamMembers.slice(0, 8).map((member, index) => (
+          {teamMembers.slice(0, 9).map((member, index) => (
             <motion.div
               className="tm-image-container"
               key={index}
