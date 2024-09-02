@@ -375,6 +375,7 @@ const RegistrationPage = () => {
           <div>
         <div className="field">
           <h3 className="field-title">UPI ID: kobikags-2@oksbi</h3>
+          <h3 className="field-subtitle">Phone Number:9786614582 </h3>
           <a href={upiLink} target="_blank" rel="noopener noreferrer" className="upi-link">
             <button type="button" className="upi-button">
               Pay ₹100
@@ -383,6 +384,7 @@ const RegistrationPage = () => {
         </div>
         <div className="field">
           <h3 className="field-title">UPI ID: vikirthan06-2@okhdfcbank</h3>
+          <h3 className="field-subtitle">Phone Number: 8190022020</h3>
           <a href={UpiLink1} target="_blank" rel="noopener noreferrer" className="upi-link1">
             <p className="upi-or">or</p>
             <button type="button" className="upi-button1">
