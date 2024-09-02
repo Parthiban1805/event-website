@@ -272,6 +272,10 @@ const RegistrationPage = () => {
             <option value="M.Sc">M.Sc</option>
             <option value="BBA">BBA</option>
             <option value="MBA">MBA</option>
+            <option value="BA">BA</option>
+            <option value="BA.Arch"> BA.Arch</option>
+
+
           </select>
         </div>
         <div className="field">
