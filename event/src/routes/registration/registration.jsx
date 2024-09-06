@@ -98,16 +98,6 @@ const RegistrationPage = () => {
         text: message,
         content: {
           element: "div",
-          attributes: {
-            innerHTML: `
-              <p>For any queries, please contact:</p>
-              <ul>
-                <li>Lakshan Raghav J R: <a href="tel:+918610590584">+91 86105 90584</a></li>
-                <li>Harshavardhan: <a href="tel:+919963652827">+91 99636 52827</a></li>
-                <li>Vikirthan: <a href="tel:+918190022020">+91 81900 22020</a></li>
-              </ul>
-            `,
-          },
         },
         icon: "success",
       }).then(() => {
@@ -155,15 +145,43 @@ const RegistrationPage = () => {
   };
   
 
-  const handlePaymentConfirmation = () => {
-    if (!paymentScreenshot) {
-      swal("Error", "Please upload a screenshot of the payment.", "error");
-      return;
-    }
+  const handlePaymentConfirmation = async() => {
+    const paymentData = {
+      order_id: `order_${Math.floor(Math.random() * 1000000)}`, // Unique order ID
+      order_amount: 100, // Payment amount
+      customer_id: regNo,
+      customer_email: email,
+      customer_phone: phone,
+      order_currency: "INR",
+      order_note: "Registration for event",
+      return_url: "https://your-website.com/payment-status",
+      notify_url: "https://your-website.com/payment-status",
+    };
 
-    setPaymentConfirmed(true);
-    swal("Payment confirmed", "Your payment has been confirmed successfully!", "success");
+    try {
+      // Initiate payment
+      const cashfree = new Cashfree({
+        mode: "TEST", // Change to 'PROD' for production
+        appId: process.env.REACT_APP_CASHFREE_APP_ID,
+        secretKey: process.env.REACT_APP_CASHFREE_SECRET_KEY,
+      });
+
+      const paymentResponse = await cashfree.initiatePayment(paymentData);
+
+      if (paymentResponse.status === "OK") {
+        window.location.href = paymentResponse.payment_link; // Redirect to Cashfree payment page
+      } else {
+        swal("Payment failed", "Please try again.", "error");
+      }
+
+      setLoading(false);
+    } catch (error) {
+      console.error("Error initiating payment: ", error);
+      swal("Payment failed", "Please try again.", "error");
+      setLoading(false);
+    }
   };
+
 
   const handlePaymentClick = () => {
     const googlePayUpiID = "kobikags-2@oksbi";
@@ -182,9 +200,9 @@ const RegistrationPage = () => {
   return (
     <div className="registration-page-container">
       <div className="registration-page-header">
-        <h1 style={{ color: "black" }}>Register here</h1>
+        <h1 style={{ color: "black" }}>Registration was closed....</h1>
       </div>
-      <form className="registration-form" onSubmit={handleSubmit}>
+      {/* <form className="registration-form" onSubmit={handleSubmit}>
         {Object.keys(errors).map((errorKey) => (
           <div key={errorKey} className="error-message">
             {errors[errorKey]}
@@ -418,7 +436,7 @@ const RegistrationPage = () => {
             {loading ? "Submitting..." : "Submit"}
           </button>
         </div>
-      </form>
+      </form> */}
     </div>
   );
 };
