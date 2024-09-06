@@ -18,17 +18,19 @@ import { IoCloudOffline } from "react-icons/io5";
 
 const Layout = ({ children }) => {
   const location = useLocation();
-  const isAdminRoute = location.pathname === '/admin06092005' || location.pathname === '/registration';
+  const isAdminRoute = location.pathname === '/admin06092005';
+  const isRegistrationRoute = location.pathname === '/registration';
+
   useEffect(() => {
     window.scrollTo(0, 0); 
   }, [location]);
 
   return (
     <>
-      {!isAdminRoute && <Navbar />}
+      {!isAdminRoute && !isRegistrationRoute && <Navbar />}
       {children}
-      {!isAdminRoute && <Footer />}
-      {!isAdminRoute && <RegistrationPage />}
+      {!isAdminRoute && !isRegistrationRoute && <Footer />}
+
 
     </>
   );
