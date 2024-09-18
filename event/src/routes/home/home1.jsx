@@ -72,14 +72,14 @@ const Home = () => {
           <img src={bg} alt="Hero Background of National Service Scheme at Lovely Professional University" className="home-page1-hero-image" />
         </section>
   
-        <section id="register-now" className="register-now">
+        {/* <section id="register-now" className="register-now">
           <p className="register-content">
             <span style={{ color: "gray", fontSize: "35px" }}>"</span>
             Registration for the Run for Equality 2.0 - 2024 is open now!
             <a href="/registration" style={{ color: "#ff4500", textDecoration: "none" }}> Click here to register</a>
             <span style={{ color: "gray", fontSize: "35px" }}>"</span>
           </p>
-        </section>
+        </section> */}
   
         <section className="home-page1-sub-header">
           <h1 className="motto1">
@@ -105,7 +105,7 @@ const Home = () => {
           </div>
         </section>
   
-        <section className="events-section1">
+        {/* <section className="events-section1">
           <p className="events-title1">~Upcoming Events</p>
           <div className="events-card-container1">
             <Card
@@ -115,7 +115,7 @@ const Home = () => {
               navlink={{ pathname: '/registration' }}
             />
           </div>
-        </section>
+        </section> */}
   
         <section className="events-section1">
           <p className="events-title1">~Social Events</p>
@@ -135,6 +135,7 @@ const Home = () => {
         <section className="events-section1">
           <p className="events-title1">~Fundraising Events</p>
           <div className="events-card-container1">
+          <Card title="Run for Equality-2" img={rfe} navlink={{pathname: '/'}}/>
             <Card title="Rivals on the pitch" img={rivals} navlink={{ pathname: '/' }} />
             <Card title="Smash it" img={smash} navlink={{ pathname: '/' }} />
             <Card title="Run for equality 2023" img={Run_for_equality_2023} navlink={{ pathname: '/' }} />
